@@ -1,0 +1,3 @@
+config:
+  # Force 64 parallel jobs, otherwise we are limited to 16
+  build_jobs: 64

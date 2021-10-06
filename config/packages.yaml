@@ -1,0 +1,26 @@
+packages:
+  adios:
+    variants: +hdf5
+  adios2:
+    variants: +hdf5
+  cairo:
+    # FIXME We have to specify +X again, otherwise it gets reset to ~X (https://github.com/spack/spack/pull/10466)
+    variants: +fc+ft+gobject+pdf+X
+  doxygen:
+    variants: +graphviz
+  hdf5:
+    variants: +hl+szip+threadsafe
+  libfabric:
+    variants: fabrics=sockets,tcp,verbs,rxd,rxm
+  mpich:
+    variants: device=ch4 netmod=ofi
+  pcre:
+    variants: +jit
+  all:
+    # Keep in sync with install script
+    compiler: [gcc@11.2.0]
+    providers:
+      mpi: [mpich]
+    # Make sure to build for a generic architecture
+    target: [x86_64]
+    variants: +X
