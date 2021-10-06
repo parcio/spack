@@ -22,5 +22,5 @@ packages:
     providers:
       mpi: [mpich]
     # Make sure to build for a generic architecture
-    target: [x86_64]
+    target: [x86_64_v3]
     variants: +X
