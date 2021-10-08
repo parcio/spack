@@ -17,10 +17,12 @@ spack_install ()
 {
 	if test -n "${SPACK_MIRROR}"
 	then
+		echo "Mirroring $@"
 		./bin/spack mirror create --directory "${SPACK_MIRROR}" --dependencies "$@"
 	fi
 
-	./bin/spack install --verbose "$@"
+	echo "Installing $@"
+	./bin/spack install "$@"
 }
 
 spack_install_compiler ()
