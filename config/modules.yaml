@@ -1,23 +1,25 @@
 modules:
-  enable:
-    # We are only interested in tcl modules
-    - tcl
   prefix_inspections:
     # LD_RUN_PATH automatically sets the rpath if users do not overwrite it (https://github.com/spack/spack/pull/11071)
     lib:
       - LD_RUN_PATH
     lib64:
       - LD_RUN_PATH
-  tcl:
-    # We want to be able to do "module load $pkg"
-    naming_scheme: '{name}/{version}'
-    # Create a module for the compiler we build using the system compiler
-    whitelist: ['gcc']
-    # Do not generate modules for anything built with the system compiler
-    # Keep in sync with install script and packages.yaml
-    blacklist: ['%gcc@8.4.1']
-    all:
-      # Only load direct dependencies
-      autoload: 'direct'
-      # FIXME Causes conflicts because GCC depends on conflicting packages
-      #conflict: ['{name}']
+  default:
+    enable:
+      # We are only interested in tcl modules
+      - tcl
+    tcl:
+      projections:
+        # We want to be able to do "module load $pkg"
+        all: '{name}/{version}'
+      # Create a module for the compiler we build using the system compiler
+      whitelist: ['gcc']
+      # Do not generate modules for anything built with the system compiler
+      # Keep in sync with install script and packages.yaml
+      blacklist: ['%gcc@8.4.1']
+      all:
+        # Only load direct dependencies
+        autoload: 'direct'
+        # FIXME Causes conflicts because GCC depends on conflicting packages
+        #conflict: ['{name}']

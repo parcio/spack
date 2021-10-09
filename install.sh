@@ -127,4 +127,4 @@ spack_install py-virtualenv
 # Precreate the variables for our hack in setup-env.sh
 ./bin/spack --print-shell-vars sh > share/spack/setup-env.vars
 # This is required for chaining to work
-./bin/spack module tcl refresh --yes-to-all
+./bin/spack module tcl refresh --delete-tree --yes-to-all
