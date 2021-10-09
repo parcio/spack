@@ -88,9 +88,12 @@ spack_install gsl
 # Development
 spack_install autoconf
 spack_install automake
+spack_install bison
 spack_install boost
 spack_install cmake
 spack_install doxygen
+spack_install flex
+spack_install git
 spack_install hwloc
 spack_install json-c
 spack_install libtool
@@ -119,6 +122,8 @@ spack_install py-scikit-learn
 spack_install py-sphinx
 spack_install py-virtualenv
 
+# Remove all unneeded packages
+./bin/spack gc --yes-to-all
 # Precreate the variables for our hack in setup-env.sh
 ./bin/spack --print-shell-vars sh > share/spack/setup-env.vars
 # This is required for chaining to work
