@@ -1,6 +1,6 @@
 config:
-  # Force 64 parallel jobs, otherwise we are limited to 16
-  build_jobs: 64
+  # Force 128 parallel jobs, otherwise we are limited to 16
+  build_jobs: 128
   # FIXME Work around concretizer bugs:
   # https://github.com/spack/spack/issues/26585
   # https://github.com/spack/spack/issues/26598
