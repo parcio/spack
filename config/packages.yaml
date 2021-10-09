@@ -8,6 +8,8 @@ packages:
     variants: +fc+ft+gobject+pdf+X
   doxygen:
     variants: +graphviz
+  gdb:
+    variants: ~python
   hdf5:
     variants: +hl+szip+threadsafe
   libfabric:

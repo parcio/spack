@@ -17,11 +17,11 @@ spack_install ()
 {
 	if test -n "${SPACK_MIRROR}"
 	then
-		echo "Mirroring $@"
+		echo "Mirroring $*"
 		./bin/spack mirror create --directory "${SPACK_MIRROR}" --dependencies "$@"
 	fi
 
-	echo "Installing $@"
+	echo "Installing $*"
 	./bin/spack install "$@"
 }
 
@@ -41,15 +41,21 @@ spack_env ()
 
 	env_file='../env.sh'
 
-	printf 'test "$(id -u)" -eq 0 && return 0\n' > "${env_file}"
-	printf '\n' >> "${env_file}"
-	printf '. %s/share/spack/setup-env.sh\n' "$(pwd)" >> "${env_file}"
-	printf '\n' >> "${env_file}"
-	printf 'module load gcc\n' >> "${env_file}"
-	printf 'module load mpich\n' >> "${env_file}"
-	printf '\n' >> "${env_file}"
-	# FIXME Make system man pages accessible
-	printf 'export MANPATH="${MANPATH}:"\n' >> "${env_file}"
+	{
+		printf 'test "$(id -u)" -eq 0 && return 0\n'
+		printf '\n'
+		printf '. %s/share/spack/setup-env.sh\n' "$(pwd)"
+		printf '\n'
+		printf 'module load gcc\n'
+		printf 'module load mpich\n'
+		printf '\n'
+		printf 'module load gdb\n'
+		printf 'module load git\n'
+		printf 'module load valgrind\n'
+		printf '\n'
+		# FIXME Make system man pages accessible
+		printf 'export MANPATH="${MANPATH}:"\n'
+	} > "${env_file}"
 }
 
 if test -f /etc/profile.d/modules.sh
@@ -75,13 +81,14 @@ spack_mirror
 # Keep in sync with packages.yaml and modules.yaml
 spack_install_compiler gcc@11.2.0 %gcc@8.4.1
 
+# Modules might not be installed system-wide
 spack_install environment-modules target=x86_64
 
 # MPI
 spack_install mpich
 
 # I/O
-#spack_install adios
+spack_install adios
 spack_install adios2
 spack_install fio
 spack_install hdf5
@@ -90,9 +97,10 @@ spack_install netcdf-c
 # Tracing
 spack_install cube
 spack_install likwid
+spack_install otf
+spack_install otf2
 spack_install scalasca
 spack_install scorep
-#spack_install vampirtrace
 
 # Compression
 spack_install c-blosc
@@ -105,7 +113,8 @@ spack_install zstd
 
 # Math
 spack_install gsl
-#spack_install netlib-scalapack
+spack_install netlib-scalapack
+spack_install openblas
 
 # Development
 spack_install autoconf
@@ -115,8 +124,11 @@ spack_install boost
 spack_install cmake
 spack_install doxygen
 spack_install flex
+spack_install gdb
 spack_install git
+spack_install glib
 spack_install hwloc
+spack_install intel-tbb
 spack_install json-c
 spack_install libtool
 spack_install m4
@@ -124,6 +136,7 @@ spack_install meson
 spack_install ninja
 spack_install numactl
 spack_install pkgconf
+spack_install valgrind
 
 # Languages
 spack_install go
