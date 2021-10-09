@@ -35,9 +35,29 @@ spack_install_compiler ()
 	./bin/spack compiler find "${location}"
 }
 
-. /etc/profile.d/modules.sh
+spack_env ()
+{
+	local env_file
 
-module purge
+	env_file='../env.sh'
+
+	printf 'test "$(id -u)" -eq 0 && return 0\n' > "${env_file}"
+	printf '\n' >> "${env_file}"
+	printf '. %s/share/spack/setup-env.sh\n' "$(pwd)" >> "${env_file}"
+	printf '\n' >> "${env_file}"
+	printf 'module load gcc\n' >> "${env_file}"
+	printf 'module load mpich\n' >> "${env_file}"
+	printf '\n' >> "${env_file}"
+	# FIXME Make system man pages accessible
+	printf 'export MANPATH="${MANPATH}:"\n' >> "${env_file}"
+}
+
+if test -f /etc/profile.d/modules.sh
+then
+	. /etc/profile.d/modules.sh
+fi
+
+module purge || true
 
 rm --force --recursive "${HOME}/.spack"
 
@@ -54,6 +74,8 @@ spack_mirror
 
 # Keep in sync with packages.yaml and modules.yaml
 spack_install_compiler gcc@11.2.0 %gcc@8.4.1
+
+spack_install environment-modules target=x86_64
 
 # MPI
 spack_install mpich
@@ -128,3 +150,5 @@ spack_install py-virtualenv
 ./bin/spack --print-shell-vars sh > share/spack/setup-env.vars
 # This is required for chaining to work
 ./bin/spack module tcl refresh --delete-tree --yes-to-all
+
+spack_env
