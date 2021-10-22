@@ -18,6 +18,8 @@ packages:
     variants: device=ch4 netmod=ofi
   pcre:
     variants: +jit
+  vim:
+    variants: features=huge +python
   all:
     # Keep in sync with install script
     compiler: [gcc@11.2.0]
