@@ -124,8 +124,6 @@ spack_install boost
 spack_install cmake
 spack_install doxygen
 spack_install flex
-spack_install gdb
-spack_install git
 spack_install glib
 spack_install hwloc
 spack_install intel-tbb
@@ -134,8 +132,15 @@ spack_install libtool
 spack_install m4
 spack_install meson
 spack_install ninja
-spack_install numactl
 spack_install pkgconf
+
+# Tools
+spack_install emacs
+spack_install gdb
+spack_install git
+spack_install hyperfine
+spack_install numactl
+spack_install tmux
 spack_install valgrind
 spack_install vim
 
