@@ -4,12 +4,16 @@ packages:
   adios2:
     variants: +hdf5
   cairo:
-    # FIXME +svg leads to "maximum recursion depth exceeded" (original concretizer)
+    # FIXME +svg cannot be concretized at the moment
     variants: +fc+ft+gobject+pdf+png+X
   doxygen:
     variants: +graphviz
   gdb:
     variants: ~python
+  gdbm:
+    # FIXME Work around concretizer bug:
+    # https://github.com/spack/spack/issues/26585
+    version: [1.19]
   gnuplot:
     variants: +X
   hdf5:
