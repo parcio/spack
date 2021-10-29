@@ -4,7 +4,8 @@ packages:
   adios2:
     variants: +hdf5
   cairo:
-    variants: +fc+ft+gobject+pdf+png+svg+X
+    # FIXME +svg leads to "maximum recursion depth exceeded" (original concretizer)
+    variants: +fc+ft+gobject+pdf+png+X
   doxygen:
     variants: +graphviz
   gdb:
