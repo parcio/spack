@@ -52,6 +52,7 @@ spack_env ()
 		printf 'module load gdb\n'
 		printf 'module load git\n'
 		printf 'module load valgrind\n'
+		printf 'module load vim\n'
 		printf '\n'
 		# FIXME Make system man pages accessible
 		printf 'export MANPATH="${MANPATH}:"\n'
