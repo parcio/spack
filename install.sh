@@ -80,7 +80,7 @@ patch --strip=1 --forward --reject-file=- < ../patches/env.patch || true
 spack_mirror
 
 # Keep in sync with packages.yaml and modules.yaml
-spack_install_compiler gcc@11.2.0 %gcc@8.4.1
+spack_install_compiler gcc@11.2.0 %gcc@8.5.0
 
 # Modules might not be installed system-wide
 spack_install environment-modules target=x86_64

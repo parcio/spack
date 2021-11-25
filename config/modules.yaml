@@ -17,7 +17,7 @@ modules:
       whitelist: ['gcc']
       # Do not generate modules for anything built with the system compiler
       # Keep in sync with install script and packages.yaml
-      blacklist: ['%gcc@8.4.1']
+      blacklist: ['%gcc@8.5.0']
       all:
         # Only load direct dependencies
         autoload: 'direct'
