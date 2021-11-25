@@ -167,6 +167,9 @@ spack_install py-scikit-learn
 spack_install py-sphinx
 spack_install py-virtualenv
 
+# R
+spack_install r
+
 # Remove all unneeded packages
 ./bin/spack gc --yes-to-all
 # Precreate the variables for our hack in setup-env.sh
