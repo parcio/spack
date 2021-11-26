@@ -179,7 +179,7 @@ spack_install r
 # Remove all unneeded packages
 ./bin/spack gc --yes-to-all
 # Precreate the variables for our hack in setup-env.sh
-./bin/spack --print-shell-vars sh > share/spack/setup-env.vars
+./bin/spack --print-shell-vars sh,modules > share/spack/setup-env.vars
 # This is required for chaining to work
 ./bin/spack module tcl refresh --delete-tree --yes-to-all
 
