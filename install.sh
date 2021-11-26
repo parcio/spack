@@ -154,8 +154,7 @@ spack_install vim
 
 # Languages
 spack_install go
-# FIXME We need to wait for julia 1.7 for x86_64_v3 support
-#spack_install julia
+spack_install julia
 spack_install llvm
 spack_install rust
 
