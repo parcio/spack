@@ -2,7 +2,7 @@
 
 set -e
 
-SPACK_MIRROR="$(realpath --canonicalize-existing "$(pwd)/../spack-mirror")"
+SPACK_MIRROR="$(realpath "$(pwd)/../spack-mirror")"
 #SPACK_MIRROR=''
 
 spack_mirror ()
