@@ -26,6 +26,9 @@ packages:
     variants: +X
   pcre:
     variants: +jit
+  py-setuptools:
+    # FIXME We currently end up with two versions of py-setuptools
+    version: [57.4.0]
   vim:
     variants: features=huge +python
   all:
