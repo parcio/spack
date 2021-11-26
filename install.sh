@@ -2,7 +2,7 @@
 
 set -e
 
-SPACK_MIRROR="${HOME}/spack-mirror"
+SPACK_MIRROR="$(realpath --canonicalize-existing "$(pwd)/../spack-mirror")"
 #SPACK_MIRROR=''
 
 spack_mirror ()
@@ -44,6 +44,8 @@ spack_env ()
 	{
 		printf 'test "$(id -u)" -eq 0 && return 0\n'
 		printf '\n'
+		printf 'export SPACK_DISABLE_LOCAL_CONFIG=1\n'
+		printf '\n'
 		printf '. %s/share/spack/setup-env.sh\n' "$(pwd)"
 		printf '\n'
 		printf 'module load gcc\n'
@@ -68,6 +70,9 @@ module purge || true
 
 rm --force --recursive "${HOME}/.spack"
 
+rm --force spack/etc/spack/mirrors.yaml
+rm --force --recursive spack/etc/spack/linux
+
 cp config/config.yaml spack/etc/spack
 cp config/modules.yaml spack/etc/spack
 cp config/packages.yaml spack/etc/spack
@@ -76,6 +81,8 @@ cd spack
 
 # FIXME Find a better way to do this
 patch --strip=1 --forward --reject-file=- < ../patches/env.patch || true
+
+export SPACK_DISABLE_LOCAL_CONFIG=1
 
 spack_mirror
 
