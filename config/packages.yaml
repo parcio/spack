@@ -18,9 +18,6 @@ packages:
     variants: +X
   hdf5:
     variants: +hl+szip+threadsafe
-  julia:
-    # FIXME We need julia 1.7 for x86_64_v3 support
-    version: [1.7.0-rc2]
   libfabric:
     variants: fabrics=sockets,tcp,verbs,rxd,rxm
   mpich:
