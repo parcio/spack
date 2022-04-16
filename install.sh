@@ -110,6 +110,7 @@ spack_install adios
 spack_install adios2
 spack_install fio
 spack_install hdf5
+spack_install libfuse
 spack_install netcdf-c
 
 # Tracing
@@ -158,6 +159,7 @@ spack_install gdb
 spack_install git
 spack_install hyperfine
 spack_install numactl
+spack_install sysstat
 spack_install tmux
 spack_install valgrind
 spack_install vim
