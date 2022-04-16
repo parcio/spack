@@ -3,7 +3,8 @@
 set -e
 
 SPACK_MIRROR="$(realpath "$(pwd)/../spack-mirror")"
-#SPACK_MIRROR=''
+#SPACK_MIRROR=
+SPACK_MIRROR_ONLY=
 
 spack_mirror ()
 {
@@ -21,8 +22,11 @@ spack_install ()
 		./bin/spack mirror create --directory "${SPACK_MIRROR}" --dependencies "$@"
 	fi
 
-	echo "Installing $*"
-	./bin/spack install "$@"
+	if test -z "${SPACK_MIRROR_ONLY}"
+	then
+		echo "Installing $*"
+		./bin/spack install "$@"
+	fi
 }
 
 spack_install_compiler ()
@@ -31,8 +35,11 @@ spack_install_compiler ()
 
 	spack_install "$@"
 
-	location="$(./bin/spack location --install-dir "$@")"
-	./bin/spack compiler find "${location}"
+	if test -z "${SPACK_MIRROR_ONLY}"
+	then
+		location="$(./bin/spack location --install-dir "$@")"
+		./bin/spack compiler find "${location}"
+	fi
 }
 
 spack_env ()
@@ -79,8 +86,11 @@ cp config/packages.yaml spack/etc/spack
 
 cd spack
 
-# FIXME Find a better way to do this
-patch --strip=1 --forward --reject-file=- < ../patches/env.patch || true
+if test -z "${SPACK_MIRROR_ONLY}"
+then
+	# FIXME Find a better way to do this
+	patch --strip=1 --forward --reject-file=- < ../patches/env.patch || true
+fi
 
 export SPACK_DISABLE_LOCAL_CONFIG=1
 
@@ -176,11 +186,14 @@ spack_install py-virtualenv
 # R
 spack_install r
 
-# Remove all unneeded packages
-./bin/spack gc --yes-to-all
-# Precreate the variables for our hack in setup-env.sh
-./bin/spack --print-shell-vars sh,modules > share/spack/setup-env.vars
-# This is required for chaining to work
-./bin/spack module tcl refresh --delete-tree --yes-to-all
+if test -z "${SPACK_MIRROR_ONLY}"
+then
+	# Remove all unneeded packages
+	./bin/spack gc --yes-to-all
+	# Precreate the variables for our hack in setup-env.sh
+	./bin/spack --print-shell-vars sh,modules > share/spack/setup-env.vars
+	# This is required for chaining to work
+	./bin/spack module tcl refresh --delete-tree --yes-to-all
 
-spack_env
+	spack_env
+fi
