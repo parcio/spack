@@ -6,6 +6,19 @@ SPACK_MIRROR="$(realpath "$(pwd)/../spack-mirror")"
 #SPACK_MIRROR=
 SPACK_MIRROR_ONLY=
 
+spack_apply_pr ()
+{
+	local pr
+
+	pr="$1"
+
+	test -n "${pr}" || return 1
+
+	rm --force "${pr}.patch"
+	curl --fail --location --remote-name "https://github.com/spack/spack/pull/${pr}.patch"
+	patch --strip=1 --forward --reject-file=- < "${pr}.patch"
+}
+
 spack_mirror ()
 {
 	test -n "${SPACK_MIRROR}" || return 0
@@ -86,10 +99,18 @@ cp config/packages.yaml spack/etc/spack
 
 cd spack
 
+git checkout --force
+
 if test -z "${SPACK_MIRROR_ONLY}"
 then
 	# FIXME Find a better way to do this
-	patch --strip=1 --forward --reject-file=- < ../patches/env.patch || true
+	patch --strip=1 --forward --reject-file=- < ../patches/env.patch
+
+	# FIXME sysstat does not build
+	spack_apply_pr 30121
+
+	# FIXME hyperfine does not build
+	spack_apply_pr 30123
 fi
 
 export SPACK_DISABLE_LOCAL_CONFIG=1
