@@ -134,7 +134,6 @@ then
 	rm --force --recursive "${HOME}/.spack"
 
 	rm --force etc/spack/mirrors.yaml
-	rm --force --recursive etc/spack/linux
 
 	cp ../config/config.yaml etc/spack
 	cp ../config/modules.yaml etc/spack
@@ -146,6 +145,9 @@ then
 		./bin/spack mirror add local "file://${BOOTSTRAP_MIRROR}"
 	fi
 fi
+
+# Force recreating the compiler configuration since it might be different from the prepare phase
+rm --force --recursive etc/spack/linux
 
 # Keep in sync with packages.yaml and modules.yaml
 bootstrap_install_compiler gcc@11.2.0 %gcc@8.5.0
