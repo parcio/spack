@@ -3,9 +3,14 @@ packages:
     variants: +hdf5
   adios2:
     variants: +hdf5
+  boost:
+    # Valgrind depends on Boost with these variants
+    variants: +atomic+chrono+date_time+exception+filesystem+graph+iostreams+locale+log+math+program_options+random+regex+serialization+signals+system+test+thread+timer+wave
   cairo:
     # FIXME +svg cannot be concretized at the moment
     variants: +fc+ft+gobject+pdf+png+X
+  curl:
+    variants: +libidn2
   doxygen:
     variants: +graphviz
   gdb:
