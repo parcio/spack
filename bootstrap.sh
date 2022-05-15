@@ -125,11 +125,7 @@ then
 	# FIXME Find a better way to do this
 	git apply --verbose ../patches/env.patch
 
-	# FIXME sysstat does not build
-	bootstrap_apply_pr 30121
-
-	# FIXME hyperfine does not build
-	bootstrap_apply_pr 30123
+	#bootstrap_apply_pr xyz
 
 	rm --force --recursive "${HOME}/.spack"
 
