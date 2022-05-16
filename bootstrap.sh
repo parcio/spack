@@ -227,12 +227,18 @@ bootstrap_install graphviz
 # Python
 bootstrap_install python
 bootstrap_install py-flake8
+#bootstrap_install py-keras
 bootstrap_install py-matplotlib
 bootstrap_install py-numpy
 bootstrap_install py-pandas
 bootstrap_install py-pip
+bootstrap_install py-requests
 bootstrap_install py-scikit-learn
+bootstrap_install py-scipy
+bootstrap_install py-seaborn
 bootstrap_install py-sphinx
+#bootstrap_install py-tensorflow
+#bootstrap_install py-torch
 bootstrap_install py-virtualenv
 
 # R
