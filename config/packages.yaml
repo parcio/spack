@@ -25,6 +25,9 @@ packages:
     variants: +hl+szip+threadsafe
   libfabric:
     variants: fabrics=sockets,tcp,udp,verbs,rxd,rxm
+  libfuse:
+    # FIXME Check whether this needs to be the same version as the system FUSE
+    variants: ~utils
   mpich:
     variants: device=ch4 netmod=ofi
   pango:
