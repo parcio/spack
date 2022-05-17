@@ -25,6 +25,9 @@ packages:
     variants: +hl+szip+threadsafe
   libfabric:
     variants: fabrics=sockets,tcp,udp,verbs,rxd,rxm
+  libffi:
+    # FIXME gobject-introspection currently requires 3.3, resulting in duplicated packages
+    version: [3.3]
   libfuse:
     # FIXME Check whether this needs to be the same version as the system FUSE
     variants: ~utils
@@ -32,6 +35,8 @@ packages:
     variants: device=ch4 netmod=ofi
   pango:
     variants: +X
+    # FIXME Newer versions do not build due to problems with harfbuzz
+    version: [1.42.4]
   pcre:
     variants: +jit
   py-setuptools:
