@@ -41,7 +41,7 @@ packages:
     variants: features=huge +python
   all:
     # Keep in sync with install script
-    compiler: [gcc@11.3.0]
+    compiler: [gcc@12.1.0]
     providers:
       mpi: [mpich]
     # Make sure to build for a generic architecture

@@ -146,7 +146,7 @@ fi
 rm --force --recursive etc/spack/linux
 
 # Keep in sync with packages.yaml and modules.yaml
-bootstrap_install_compiler gcc@11.3.0 %gcc@8.5.0
+bootstrap_install_compiler gcc@12.1.0 %gcc@8.5.0
 
 # Modules might not be installed system-wide
 bootstrap_install environment-modules target=x86_64
