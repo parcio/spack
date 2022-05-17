@@ -131,6 +131,7 @@ then
 
 	rm --force etc/spack/mirrors.yaml
 
+	cp ../config/concretizer.yaml etc/spack
 	cp ../config/config.yaml etc/spack
 	cp ../config/modules.yaml etc/spack
 	cp ../config/packages.yaml etc/spack
