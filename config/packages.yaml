@@ -44,6 +44,8 @@ packages:
     version: [57.4.0]
   vim:
     variants: features=huge +python
+  zstd:
+    variants: +programs
   all:
     # Keep in sync with install script
     compiler: [gcc@12.1.0]
