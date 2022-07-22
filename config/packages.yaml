@@ -35,13 +35,11 @@ packages:
     variants: device=ch4 netmod=ofi
   pango:
     variants: +X
-    # FIXME Newer versions do not build due to problems with harfbuzz
-    version: [1.42.4]
   pcre:
     variants: +jit
   py-setuptools:
     # FIXME We currently end up with two versions of py-setuptools
-    version: [57.4.0]
+    version: [59.4.0]
   vim:
     variants: features=huge +python
   zstd:
