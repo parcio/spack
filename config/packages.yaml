@@ -49,7 +49,7 @@ packages:
     variants: +programs
   all:
     # Keep in sync with install script
-    compiler: [gcc@12.1.0]
+    compiler: [gcc@12.2.0]
     providers:
       mpi: [mpich]
     # Make sure to build for a generic architecture
