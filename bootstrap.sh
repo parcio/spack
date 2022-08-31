@@ -258,4 +258,10 @@ then
 	./bin/spack module tcl refresh --delete-tree --yes-to-all
 
 	bootstrap_create_env
+
+	if test -n "${BOOTSTRAP_MIRROR}"
+	then
+		# Remove cached downloads, which are also available in the mirror
+		./bin/spack clean --downloads
+	fi
 fi
