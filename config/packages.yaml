@@ -43,6 +43,9 @@ packages:
   py-setuptools:
     # FIXME We currently end up with two versions of py-setuptools
     version: [59.4.0]
+  py-setuptools-scm:
+    # FIXME We currently end up with two versions of py-setuptools-scm
+    version: [6.3.2]
   vim:
     variants: features=huge +python
   zstd:
