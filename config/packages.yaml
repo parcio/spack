@@ -40,9 +40,6 @@ packages:
   py-numpy:
     # FIXME We currently end up with two versions of py-numpy
     version: [1.22.4]
-  py-pandas:
-    # FIXME py-pandas requires a version of py-cython that is not packaged yet
-    version: [1.4.3]
   py-setuptools:
     # FIXME We currently end up with two versions of py-setuptools
     version: [59.4.0]
