@@ -77,6 +77,17 @@ bootstrap_install_compiler ()
 	fi
 }
 
+bootstrap_module_load ()
+{
+	local module
+
+	module="$1"
+
+	test -n "${module}" || return 1
+
+	printf 'module load %s > /dev/null || echo "Could not load %s"\n' "${module}" "${module}"
+}
+
 bootstrap_create_env ()
 {
 	local env_file
@@ -90,13 +101,14 @@ bootstrap_create_env ()
 		printf '\n'
 		printf '. %s/share/spack/setup-env.sh\n' "$(pwd)"
 		printf '\n'
-		printf 'module load gcc\n'
-		printf 'module load mpich\n'
+		bootstrap_module_load gcc
+		bootstrap_module_load mpich
 		printf '\n'
-		printf 'module load gdb\n'
-		printf 'module load git\n'
-		printf 'module load valgrind\n'
-		printf 'module load vim\n'
+		bootstrap_module_load gdb
+		bootstrap_module_load git
+		bootstrap_module_load nano
+		bootstrap_module_load valgrind
+		bootstrap_module_load vim
 		printf '\n'
 		# FIXME Make system man pages accessible
 		printf 'export MANPATH="${MANPATH}:"\n'
