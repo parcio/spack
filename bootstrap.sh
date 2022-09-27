@@ -208,7 +208,9 @@ bootstrap_install emacs
 bootstrap_install gdb
 bootstrap_install git
 bootstrap_install hyperfine
+bootstrap_install nano
 bootstrap_install numactl
+bootstrap_install strace
 bootstrap_install sysstat
 bootstrap_install tmux
 bootstrap_install valgrind
