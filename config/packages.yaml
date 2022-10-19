@@ -25,27 +25,25 @@ packages:
     variants: +hl+szip+threadsafe
   libfabric:
     variants: fabrics=sockets,tcp,udp,verbs,rxd,rxm
-  libffi:
-    # FIXME gobject-introspection currently requires 3.3, resulting in duplicated packages
-    version: [3.3]
   libfuse:
     # FIXME Check whether this needs to be the same version as the system FUSE
     variants: ~utils
+  libssh2:
+    variants: crypto=mbedtls
+  mbedtls:
+    variants: libs=shared,static
   mpich:
     variants: device=ch4 netmod=ofi
   pango:
     variants: +X
   pcre:
     variants: +jit
-  py-numpy:
-    # FIXME We currently end up with two versions of py-numpy
-    version: [1.22.4]
+  py-pybind11:
+    # FIXME We currently end up with two versions of py-pybind11
+    version: [2.8.1]
   py-setuptools:
     # FIXME We currently end up with two versions of py-setuptools
     version: [59.4.0]
-  py-setuptools-scm:
-    # FIXME We currently end up with two versions of py-setuptools-scm
-    version: [6.3.2]
   vim:
     variants: features=huge +python
   zstd:
