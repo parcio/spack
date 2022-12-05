@@ -1,43 +1,45 @@
 packages:
   adios:
-    variants: +hdf5
+    require: "+hdf5"
   adios2:
-    variants: +hdf5
+    require: "+hdf5"
   boost:
     # Valgrind depends on Boost with these variants
-    variants: +atomic+chrono+date_time+exception+filesystem+graph+iostreams+locale+log+math+program_options+random+regex+serialization+signals+system+test+thread+timer+wave
+    require: "+atomic+chrono+date_time+exception+filesystem+graph+iostreams+locale+log+math+program_options+random+regex+serialization+signals+system+test+thread+timer+wave"
   cairo:
     # FIXME +svg cannot be concretized at the moment
-    variants: +fc+ft+gobject+pdf+png+X
+    require: "+fc+ft+gobject+pdf+png+X"
   curl:
-    variants: +libidn2
+    require: "+libidn2"
   doxygen:
-    variants: +graphviz
+    require: "+graphviz"
   gdb:
-    variants: ~python
+    require: "~python"
   gdbm:
     # FIXME Work around concretizer bug:
     # https://github.com/spack/spack/issues/26585
     version: [1.19]
   gnuplot:
-    variants: +X
+    require: "+X"
   hdf5:
-    variants: +hl+szip+threadsafe
+    require: "+hl+szip+threadsafe"
   libfabric:
-    variants: fabrics=sockets,tcp,udp,verbs,rxd,rxm
+    require: "fabrics=sockets,tcp,udp,verbs,rxd,rxm"
   libfuse:
     # FIXME Check whether this needs to be the same version as the system FUSE
-    variants: ~utils
+    require: "~utils"
   libssh2:
-    variants: crypto=mbedtls
+    require: "crypto=mbedtls"
   mbedtls:
-    variants: libs=shared,static
+    require: "libs=shared,static"
+  mpi:
+    require: "mpich"
   mpich:
-    variants: device=ch4 netmod=ofi
+    require: "device=ch4 netmod=ofi"
   pango:
-    variants: +X
+    require: "+X"
   pcre:
-    variants: +jit
+    require: "+jit"
   py-pybind11:
     # FIXME We currently end up with two versions of py-pybind11
     version: [2.8.1]
@@ -45,14 +47,11 @@ packages:
     # FIXME We currently end up with two versions of py-setuptools
     version: [59.4.0]
   vim:
-    variants: features=huge +python
+    require: "features=huge +python"
   zstd:
-    variants: +programs
+    require: "+programs"
   all:
     # Keep in sync with install script
-    compiler: [gcc@12.2.0]
-    providers:
-      mpi: [mpich]
     # Make sure to build for a generic architecture
-    target: [x86_64_v3]
+    require: "%gcc@12.2.0 target=x86_64_v3"
     # Warning: Adding global variants resets per-package variants (https://github.com/spack/spack/pull/10466)

@@ -18,14 +18,14 @@ modules:
     tcl:
       projections:
         # We want to be able to do "module load $pkg"
-        all: '{name}/{version}'
+        all: "{name}/{version}"
       # Create a module for the compiler we build using the system compiler
-      whitelist: ['gcc']
+      whitelist: ["gcc"]
       # Do not generate modules for anything built with the system compiler
       # Keep in sync with install script and packages.yaml
-      blacklist: ['%gcc@8.5.0']
+      blacklist: ["%gcc@8.5.0"]
       all:
         # Only load direct dependencies
-        autoload: 'direct'
+        autoload: "direct"
         # FIXME Causes conflicts because GCC depends on conflicting packages
         #conflict: ['{name}']
