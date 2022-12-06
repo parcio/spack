@@ -138,6 +138,8 @@ then
 	git apply --verbose ../patches/env.patch
 
 	#bootstrap_apply_pr xyz
+	bootstrap_apply_pr 34343
+	bootstrap_apply_pr 34352
 
 	rm --force --recursive "${HOME}/.spack"
 
@@ -232,6 +234,7 @@ bootstrap_install vim
 bootstrap_install go
 bootstrap_install julia
 bootstrap_install llvm
+bootstrap_install perl
 bootstrap_install rust
 
 # Visualization
@@ -254,7 +257,7 @@ bootstrap_install py-scipy
 bootstrap_install py-seaborn
 bootstrap_install py-sphinx
 #bootstrap_install py-tensorflow
-#bootstrap_install py-torch
+bootstrap_install py-torch
 bootstrap_install py-virtualenv
 
 # R
