@@ -5,7 +5,7 @@ packages:
     require: "+hdf5"
   boost:
     # Valgrind depends on Boost with these variants
-    require: "+atomic+chrono+date_time+exception+filesystem+graph+iostreams+locale+log+math+program_options+random+regex+serialization+signals+system+test+thread+timer+wave"
+    require: "+atomic+chrono+exception+system+thread"
   cairo:
     # FIXME +svg cannot be concretized at the moment
     require: "+fc+ft+gobject+pdf+png+X"
@@ -15,10 +15,6 @@ packages:
     require: "+graphviz"
   gdb:
     require: "~python"
-  gdbm:
-    # FIXME Work around concretizer bug:
-    # https://github.com/spack/spack/issues/26585
-    version: [1.19]
   gnuplot:
     require: "+X"
   hdf5:
@@ -40,18 +36,17 @@ packages:
     require: "+X"
   pcre:
     require: "+jit"
-  py-pybind11:
-    # FIXME We currently end up with two versions of py-pybind11
-    version: [2.8.1]
   py-setuptools:
-    # FIXME We currently end up with two versions of py-setuptools
+    # FIXME We currently end up with two versions of py-setuptools (and many dependents)
     version: [59.4.0]
   vim:
     require: "features=huge +python"
   zstd:
     require: "+programs"
   all:
+    # FIXME We cannot use requirements here (https://github.com/spack/spack/issues/34341)
     # Keep in sync with install script
+    compiler: [gcc@12.2.0]
     # Make sure to build for a generic architecture
-    require: "%gcc@12.2.0 target=x86_64_v3"
+    target: [x86_64_v3]
     # Warning: Adding global variants resets per-package variants (https://github.com/spack/spack/pull/10466)
