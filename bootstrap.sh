@@ -139,7 +139,6 @@ then
 
 	#bootstrap_apply_pr xyz
 	bootstrap_apply_pr 34343
-	bootstrap_apply_pr 34352
 
 	rm --force --recursive "${HOME}/.spack"
 
