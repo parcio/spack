@@ -98,6 +98,7 @@ bootstrap_create_env ()
 		printf 'test "$(id -u)" -eq 0 && return 0\n'
 		printf '\n'
 		printf 'export SPACK_DISABLE_LOCAL_CONFIG=1\n'
+		printf 'export SLURM_OVERLAP=1\n'
 		printf '\n'
 		printf '. %s/share/spack/setup-env.sh\n' "$(pwd)"
 		printf '\n'
