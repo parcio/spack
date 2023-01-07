@@ -1,14 +1,17 @@
 modules:
   prefix_inspections:
+    # LD_LIBRARY_PATH is not set by default anymore (https://github.com/spack/spack/pull/28354)
     # LIBRARY_PATH and *_INCLUDE_PATH are not set by default anymore (https://github.com/spack/spack/pull/21699)
     include:
       - C_INCLUDE_PATH
       - CPLUS_INCLUDE_PATH
     # LD_RUN_PATH automatically sets the rpath if users do not overwrite it (https://github.com/spack/spack/pull/11071)
     lib:
+      - LD_LIBRARY_PATH
       - LIBRARY_PATH
       - LD_RUN_PATH
     lib64:
+      - LD_LIBRARY_PATH
       - LIBRARY_PATH
       - LD_RUN_PATH
   default:
