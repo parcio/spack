@@ -139,7 +139,6 @@ then
 	git apply --verbose ../patches/env.patch
 
 	#bootstrap_apply_pr xyz
-	bootstrap_apply_pr 34343
 
 	rm --force --recursive "${HOME}/.spack"
 
