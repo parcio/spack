@@ -38,9 +38,11 @@ packages:
     require: "+jit"
   py-setuptools:
     # FIXME We currently end up with two versions of py-setuptools (and many dependents)
-    version: [59.4.0]
+    version: [63.0.0]
   py-torch:
     require: "~mkldnn"
+  qt-base:
+    require: "+opengl"
   vim:
     require: "features=huge +python"
   zstd:
