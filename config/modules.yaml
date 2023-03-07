@@ -28,7 +28,7 @@ modules:
       # Keep in sync with install script and packages.yaml
       blacklist: ["%gcc@8.5.0"]
       all:
-        # Only load direct dependencies
-        autoload: "direct"
+        # Only load run dependencies
+        autoload: "run"
         # FIXME Causes conflicts because GCC depends on conflicting packages
         #conflict: ['{name}']
