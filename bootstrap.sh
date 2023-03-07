@@ -225,6 +225,7 @@ bootstrap_install qt-base
 bootstrap_install emacs
 bootstrap_install gdb
 bootstrap_install git
+bootstrap_install git-lfs
 bootstrap_install hyperfine
 bootstrap_install nano
 bootstrap_install numactl
