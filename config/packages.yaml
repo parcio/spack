@@ -17,6 +17,9 @@ packages:
     require: "~python"
   gnuplot:
     require: "+X"
+  go:
+    # FIXME 1.20 does not build (https://github.com/spack/spack/issues/35808)
+    version: [1.19.6]
   hdf5:
     require: "+hl+szip+threadsafe"
   libfabric:
