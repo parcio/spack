@@ -17,7 +17,8 @@ packages:
   doxygen:
     require: "+graphviz"
   gdb:
-    require: "~python"
+    # FIXME +debuginfod causes elfutils to fail building
+    require: "~debuginfod~python"
   gnuplot:
     require: "+X"
   go:
