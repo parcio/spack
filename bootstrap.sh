@@ -145,6 +145,7 @@ then
 	bootstrap_apply_pr 35947
 	bootstrap_apply_pr 35959
 	bootstrap_apply_pr 35960
+	bootstrap_apply_pr 35982
 
 	rm --force --recursive "${HOME}/.spack"
 
@@ -260,7 +261,7 @@ bootstrap_install py-pandas
 bootstrap_install py-pip
 bootstrap_install py-poetry
 bootstrap_install py-requests
-#bootstrap_install py-scikit-learn
+bootstrap_install py-scikit-learn
 bootstrap_install py-scipy
 bootstrap_install py-seaborn
 bootstrap_install py-sphinx
