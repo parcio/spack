@@ -3,6 +3,9 @@ packages:
     require: "+hdf5"
   adios2:
     require: "+hdf5"
+  binutils:
+    # LLVM depends on binutils with these variants
+    require: "+ld+gold"
   boost:
     # Valgrind depends on Boost with these variants
     require: "+atomic+chrono+exception+system+thread"
