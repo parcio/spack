@@ -54,7 +54,7 @@ packages:
   all:
     # FIXME We cannot use requirements here (https://github.com/spack/spack/issues/34341)
     # Keep in sync with install script
-    compiler: [gcc@12.2.0]
+    compiler: [gcc@13.1.0]
     # Make sure to build for a generic architecture
     target: [x86_64_v3]
     # Warning: Adding global variants resets per-package variants (https://github.com/spack/spack/pull/10466)
