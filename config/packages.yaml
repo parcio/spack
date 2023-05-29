@@ -23,6 +23,9 @@ packages:
     require: "+X"
   hdf5:
     require: "+hl+szip+threadsafe"
+  julia:
+    # FIXME llvm@14.0.6 required by jula@1.9 currently does not compile
+    version: [1.8.5]
   libfabric:
     require: "fabrics=sockets,tcp,udp,verbs,rxd,rxm"
   libfuse:
@@ -54,7 +57,7 @@ packages:
   all:
     # FIXME We cannot use requirements here (https://github.com/spack/spack/issues/34341)
     # Keep in sync with install script
-    compiler: [gcc@13.1.0]
+    compiler: [gcc@12.3.0]
     # Make sure to build for a generic architecture
     target: [x86_64_v3]
     # Warning: Adding global variants resets per-package variants (https://github.com/spack/spack/pull/10466)

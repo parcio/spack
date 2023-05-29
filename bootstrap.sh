@@ -140,6 +140,8 @@ then
 
 	#bootstrap_apply_pr xyz
 	bootstrap_apply_pr 35914
+	bootstrap_apply_pr 37959
+	bootstrap_apply_pr 37990
 
 	rm --force --recursive "${HOME}/.spack"
 
@@ -161,7 +163,7 @@ fi
 rm --force --recursive etc/spack/linux
 
 # Keep in sync with packages.yaml and modules.yaml
-bootstrap_install_compiler gcc@13.1.0 %gcc@8.5.0
+bootstrap_install_compiler gcc@12.3.0 %gcc@8.5.0
 
 # Modules might not be installed system-wide
 bootstrap_install environment-modules target=x86_64
