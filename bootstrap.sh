@@ -200,6 +200,7 @@ bootstrap_install zstd
 # Math
 bootstrap_install gsl
 bootstrap_install netlib-scalapack
+bootstrap_install octave
 bootstrap_install openblas
 
 # Development
