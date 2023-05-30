@@ -5,7 +5,7 @@ packages:
     require: "+hdf5"
   binutils:
     # LLVM depends on binutils with these variants
-    require: "+ld+gold"
+    require: "+gold+headers+ld+plugins"
   boost:
     # Valgrind depends on Boost with these variants
     require: "+atomic+chrono+exception+system+thread"
@@ -13,7 +13,7 @@ packages:
     # FIXME +svg cannot be concretized at the moment
     require: "+fc+ft+gobject+pdf+png+X"
   curl:
-    require: "+libidn2"
+    require: "+libidn2+nghttp2"
   doxygen:
     require: "+graphviz"
   gdb:
@@ -39,15 +39,22 @@ packages:
     require: "mpich"
   mpich:
     require: "device=ch4 netmod=ofi"
+  octave:
+    require: "+arpack+fftw+fontconfig+freetype+gl2ps+gnuplot+hdf5+llvm+opengl+qrupdate+qscintilla+qt+readline+suitesparse"
   pango:
     require: "+X"
   pcre:
     require: "+jit"
+  py-numpy:
+    # FIXME We currently end up with two versions of py-numpy (and many dependents)
+    version: [1.23.5]
   py-setuptools:
     # FIXME We currently end up with two versions of py-setuptools (and many dependents)
     version: [63.0.0]
   py-torch:
     require: "~mkldnn"
+  qt:
+    require: "+opengl"
   qt-base:
     require: "+opengl"
   vim:
