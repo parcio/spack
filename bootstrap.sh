@@ -102,6 +102,7 @@ bootstrap_create_env ()
 		printf '\n'
 		printf '. %s/share/spack/setup-env.sh\n' "$(pwd)"
 		printf '\n'
+		bootstrap_module_load man-db
 		bootstrap_module_load gcc
 		bootstrap_module_load mpich
 		printf '\n'
@@ -168,6 +169,9 @@ bootstrap_install_compiler gcc@12.3.0 %gcc@8.5.0
 
 # Modules might not be installed system-wide
 bootstrap_install environment-modules target=x86_64
+
+# FIXME man in CentOS 8 cannot handle a long MANPATH
+bootstrap_install man-db
 
 # MPI
 bootstrap_install mpich
