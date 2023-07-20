@@ -38,7 +38,7 @@ packages:
   mpi:
     require: "mpich"
   mpich:
-    require: "device=ch4 netmod=ofi"
+    require: "device=ch4 netmod=ofi pmi=pmix"
   octave:
     require: "+arpack+fftw+fontconfig+freetype+gl2ps+gnuplot+hdf5+llvm+opengl+qrupdate+qscintilla+qt+readline+suitesparse"
   pango:
