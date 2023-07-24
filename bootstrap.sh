@@ -95,12 +95,12 @@ bootstrap_create_env ()
 	env_file='../env.sh'
 
 	{
-		# FIXME PMIx prints warning about missing Munge (https://github.com/open-mpi/ompi/issues/11557)
 		printf 'test "$(id -u)" -eq 0 && return 0\n'
 		printf '\n'
 		printf 'export SPACK_DISABLE_LOCAL_CONFIG=1\n'
 		printf 'export SLURM_OVERLAP=1\n'
 		printf 'export SLURM_MPI_TYPE=pmix\n'
+		# FIXME PMIx prints warning about missing Munge (https://github.com/open-mpi/ompi/issues/11557)
 		printf 'export PMIX_MCA_psec=^munge\n'
 		printf '\n'
 		printf '. %s/share/spack/setup-env.sh\n' "$(pwd)"
@@ -145,6 +145,7 @@ then
 	#bootstrap_apply_pr xyz
 	bootstrap_apply_pr 35914
 	bootstrap_apply_pr 39018
+	bootstrap_apply_pr 39045
 
 	rm --force --recursive "${HOME}/.spack"
 

@@ -23,9 +23,6 @@ packages:
     require: "+X"
   hdf5:
     require: "+hl+szip+threadsafe"
-  julia:
-    # FIXME llvm@14.0.6 required by jula@1.9 currently does not compile
-    version: [1.8.5]
   libfabric:
     require: "fabrics=sockets,tcp,udp,verbs,rxd,rxm"
   libfuse:
@@ -45,12 +42,12 @@ packages:
     require: "+X"
   pcre:
     require: "+jit"
-  py-numpy:
-    # FIXME We currently end up with two versions of py-numpy (and many dependents)
-    version: [1.23.5]
+  py-pip:
+    # FIXME We currently end up with two versions of py-pip (and many dependents)
+    version: [23.0]
   py-setuptools:
     # FIXME We currently end up with two versions of py-setuptools (and many dependents)
-    version: [63.0.0]
+    version: [63.4.3]
   py-torch:
     require: "~mkldnn"
   qt:
