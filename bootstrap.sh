@@ -99,9 +99,9 @@ bootstrap_create_env ()
 		printf '\n'
 		printf 'export SPACK_DISABLE_LOCAL_CONFIG=1\n'
 		printf 'export SLURM_OVERLAP=1\n'
-		printf 'export SLURM_MPI_TYPE=pmix\n'
+		printf 'export SLURM_MPI_TYPE=pmi2\n'
 		# FIXME PMIx prints warning about missing Munge (https://github.com/open-mpi/ompi/issues/11557)
-		printf 'export PMIX_MCA_psec=^munge\n'
+		#printf 'export PMIX_MCA_psec=^munge\n'
 		printf '\n'
 		printf '. %s/share/spack/setup-env.sh\n' "$(pwd)"
 		printf '\n'
@@ -114,9 +114,6 @@ bootstrap_create_env ()
 		bootstrap_module_load nano
 		bootstrap_module_load valgrind
 		bootstrap_module_load vim
-		printf '\n'
-		# FIXME Make system man pages accessible
-		printf 'export MANPATH="${MANPATH}:"\n'
 	} > "${env_file}"
 }
 
