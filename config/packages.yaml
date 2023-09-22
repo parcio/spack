@@ -50,6 +50,9 @@ packages:
     version: [63.4.3]
   py-torch:
     require: "~mkldnn"
+  python:
+    # FIXME We currently end up with two versions of python (and many dependents)
+    version: [3.10.12]
   qt:
     require: "+opengl"
   qt-base:
