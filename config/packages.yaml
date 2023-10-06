@@ -44,10 +44,10 @@ packages:
     require: "+jit"
   py-pip:
     # FIXME We currently end up with two versions of py-pip (and many dependents)
-    version: [23.0]
+    require: "@23.0"
   py-setuptools:
     # FIXME We currently end up with two versions of py-setuptools (and many dependents)
-    version: [63.4.3]
+    require: "@63.4.3"
   py-torch:
     require: "~mkldnn"
   qt:
