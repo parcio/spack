@@ -107,6 +107,7 @@ bootstrap_create_env ()
 		printf '\n'
 		bootstrap_module_load man-db
 		bootstrap_module_load gcc
+		bootstrap_module_load python
 		bootstrap_module_load mpich
 		printf '\n'
 		bootstrap_module_load gdb

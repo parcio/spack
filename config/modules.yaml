@@ -27,6 +27,8 @@ modules:
       # Do not generate modules for anything built with the system compiler
       # Keep in sync with install script and packages.yaml
       blacklist: ["%gcc@8.5.0"]
+      # Hide modules for implicit packages, that is, dependencies
+      hide_implicits: true
       all:
         # Only load run dependencies
         autoload: "run"
