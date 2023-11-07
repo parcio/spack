@@ -41,9 +41,9 @@ bootstrap_apply_pr ()
 
 	test -n "${pr}" || return 1
 
-	rm --force "${pr}.patch"
-	curl --fail --location --remote-name "https://github.com/spack/spack/pull/${pr}.patch"
-	git apply --verbose "${pr}.patch"
+	rm --force "${pr}.diff"
+	curl --fail --location --remote-name "https://github.com/spack/spack/pull/${pr}.diff"
+	git apply --verbose "${pr}.diff"
 }
 
 bootstrap_install ()
