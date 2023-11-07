@@ -147,6 +147,9 @@ then
 	bootstrap_apply_pr 40612
 	# julia
 	bootstrap_apply_pr 40911
+	bootstrap_apply_pr 40938
+	# py-torch
+	bootstrap_apply_pr 40893
 
 	rm --force --recursive "${HOME}/.spack"
 
