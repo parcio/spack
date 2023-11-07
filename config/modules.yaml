@@ -30,7 +30,7 @@ modules:
       # Hide modules for implicit packages, that is, dependencies
       hide_implicits: true
       all:
-        # Only load run dependencies
-        autoload: "run"
+        # Only load direct dependencies
+        autoload: "direct"
         # FIXME Causes conflicts because GCC depends on conflicting packages
         #conflict: ['{name}']
