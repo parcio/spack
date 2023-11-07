@@ -44,9 +44,6 @@ packages:
     require: "+X"
   pcre:
     require: "+jit"
-  py-pip:
-    # FIXME We currently end up with two versions of py-pip (and many dependents)
-    require: "@23.0"
   py-setuptools:
     # FIXME We currently end up with two versions of py-setuptools (and many dependents)
     require: "@63.4.3"
