@@ -21,6 +21,8 @@ packages:
     require: "~debuginfod~python"
   gnuplot:
     require: "+X"
+  graphviz:
+    require: "+libgd+pangocairo+poppler"
   hdf5:
     require: "+hl+szip+threadsafe"
   libfabric:
