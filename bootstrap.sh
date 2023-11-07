@@ -141,7 +141,12 @@ then
 	git apply --verbose ../patches/env.patch
 
 	#bootstrap_apply_pr xyz
-	bootstrap_apply_pr 35914
+	# modules
+	#bootstrap_apply_pr 35914
+	# cube
+	bootstrap_apply_pr 40612
+	# julia
+	bootstrap_apply_pr 40911
 
 	rm --force --recursive "${HOME}/.spack"
 
