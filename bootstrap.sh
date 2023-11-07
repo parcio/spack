@@ -143,10 +143,7 @@ then
 	#bootstrap_apply_pr xyz
 	# modules
 	#bootstrap_apply_pr 35914
-	# cube
-	bootstrap_apply_pr 40612
 	# julia
-	bootstrap_apply_pr 40911
 	bootstrap_apply_pr 40938
 
 	rm --force --recursive "${HOME}/.spack"
