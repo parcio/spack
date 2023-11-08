@@ -44,9 +44,6 @@ packages:
     require: "+X"
   pcre:
     require: "+jit"
-  py-setuptools:
-    # FIXME We currently end up with two versions of py-setuptools (and many dependents)
-    require: "@63.4.3"
   py-torch:
     require: "~mkldnn"
   qt:
