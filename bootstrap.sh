@@ -143,8 +143,6 @@ then
 	#bootstrap_apply_pr xyz
 	# modules
 	#bootstrap_apply_pr 35914
-	# julia
-	bootstrap_apply_pr 40938
 
 	rm --force --recursive "${HOME}/.spack"
 
