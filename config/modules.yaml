@@ -32,6 +32,6 @@ modules:
       hide_implicits: false
       all:
         # Only load direct dependencies
-        autoload: "direct"
+        autoload: "run"
         # FIXME Causes conflicts because GCC depends on conflicting packages
         #conflict: ['{name}']
