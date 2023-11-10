@@ -23,10 +23,10 @@ modules:
         # We want to be able to do "module load $pkg"
         all: "{name}/{version}"
       # Create a module for the compiler we build using the system compiler
-      whitelist: ["gcc"]
+      include: ["gcc"]
       # Do not generate modules for anything built with the system compiler
       # Keep in sync with install script and packages.yaml
-      blacklist: ["%gcc@8.5.0"]
+      exclude: ["%gcc@8.5.0"]
       # Hide modules for implicit packages, that is, dependencies
       # FIXME requires modules >= 4.7 (https://github.com/spack/spack/issues/40940)
       hide_implicits: false
