@@ -143,6 +143,7 @@ then
 	#bootstrap_apply_pr xyz
 	# modules
 	bootstrap_apply_pr 35914
+	bootstrap_apply_pr 42070
 
 	rm --force --recursive "${HOME}/.spack"
 
