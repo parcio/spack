@@ -27,11 +27,15 @@ modules:
       # Do not generate modules for anything built with the system compiler
       # Keep in sync with install script and packages.yaml
       exclude: ["%gcc@8.5.0"]
-      # Hide modules for implicit packages, that is, dependencies
+      # Hide modules for dependencies
       # FIXME requires modules >= 4.7 (https://github.com/spack/spack/issues/40940)
       hide_implicits: false
       all:
-        # Only load direct dependencies
+        # Only load run dependencies
         autoload: "run"
         # FIXME Causes conflicts because GCC depends on conflicting packages
         #conflict: ['{name}']
+        # Do not set compiler variables because llvm is required by some packages
+        # FIXME https://github.com/spack/spack/issues/42095
+        filter:
+          exclude_env_vars: ["CC", "CXX", "FC", "F77"]
