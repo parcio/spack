@@ -25,8 +25,8 @@ modules:
       # Create a module for the compiler we build using the system compiler
       include: ["gcc"]
       # Do not generate modules for anything built with the system compiler
-      # Keep in sync with install script and packages.yaml
-      exclude: ["%gcc@8.5.0"]
+      # Keep in sync with bootstrap script
+      exclude: ["%gcc@8.5.0", "%gcc@11.4.1"]
       # Hide modules for dependencies
       # FIXME requires modules >= 4.7 (https://github.com/spack/spack/issues/40940)
       hide_implicits: false
