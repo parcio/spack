@@ -12,9 +12,21 @@ usage ()
 	exit 1
 }
 
+BOOTSTRAP_COMPILER=''
 BOOTSTRAP_MIRROR="$(realpath "$(pwd)/../spack-mirror")"
 #BOOTSTRAP_MIRROR=''
+BOOTSTRAP_OS=''
 BOOTSTRAP_PHASE=''
+
+bootstrap_get_os ()
+{
+	test -f /etc/os-release
+
+	(
+		. /etc/os-release
+		printf '%s%s' "${ID}" "${VERSION_ID}"
+	)
+}
 
 bootstrap_in_phase ()
 {
@@ -53,7 +65,7 @@ bootstrap_install ()
 		if test -n "${BOOTSTRAP_MIRROR}"
 		then
 			echo "Mirroring $*"
-			./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "$@"
+			./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "$@" %gcc@12.3.0
 		fi
 	fi
 
@@ -158,11 +170,22 @@ then
 	fi
 fi
 
+BOOTSTRAP_OS="$(bootstrap_get_os)"
+
+case "${BOOTSTRAP_OS}" in
+	centos8)
+		BOOTSTRAP_COMPILER='gcc@8.5.0'
+		;;
+	rocky9.*)
+		BOOTSTRAP_COMPILER='gcc@11.4.1'
+		;;
+esac
+
 # Force recreating the compiler configuration since it might be different from the prepare phase
-rm --force --recursive etc/spack/linux
+./bin/spack compiler remove "${BOOTSTRAP_COMPILER}"
 
 # Keep in sync with packages.yaml and modules.yaml
-bootstrap_install_compiler gcc@12.3.0 %gcc@8.5.0
+bootstrap_install_compiler gcc@12.3.0 "%${BOOTSTRAP_COMPILER}"
 
 # Modules might not be installed system-wide
 bootstrap_install environment-modules target=x86_64
@@ -277,7 +300,8 @@ then
 	./bin/spack gc --yes-to-all
 
 	# Precreate the variables for our hack in setup-env.sh
-	./bin/spack --print-shell-vars sh,modules > share/spack/setup-env.vars
+	# FIXME Does not work with more than one OS
+	#./bin/spack --print-shell-vars sh,modules > share/spack/setup-env.vars
 
 	# This is required for chaining to work
 	./bin/spack module tcl refresh --delete-tree --yes-to-all
