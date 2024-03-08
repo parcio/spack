@@ -195,6 +195,7 @@ esac
 
 # Force recreating the compiler configuration since it might be different from the prepare phase
 ./bin/spack compiler remove "${BOOTSTRAP_COMPILER}" || true
+./bin/spack compiler find
 
 # Keep in sync with packages.yaml and modules.yaml
 bootstrap_install_compiler gcc@12.3.0 "${BOOTSTRAP_COMPILER}"
