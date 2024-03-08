@@ -179,10 +179,14 @@ case "${BOOTSTRAP_OS}" in
 	rocky9.*)
 		BOOTSTRAP_COMPILER='gcc@11.4.1'
 		;;
+	*)
+		printf 'OS %s is not supported.\n' "${BOOTSTRAP_OS}"
+		exit 1
+		;;
 esac
 
 # Force recreating the compiler configuration since it might be different from the prepare phase
-./bin/spack compiler remove "${BOOTSTRAP_COMPILER}"
+./bin/spack compiler remove "${BOOTSTRAP_COMPILER}" || true
 
 # Keep in sync with packages.yaml and modules.yaml
 bootstrap_install_compiler gcc@12.3.0 "%${BOOTSTRAP_COMPILER}"
