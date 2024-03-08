@@ -73,7 +73,8 @@ bootstrap_install ()
 		if test -n "${BOOTSTRAP_MIRROR}"
 		then
 			echo "Mirroring ${package}"
-			./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "${package}" "%${compiler}"
+			# FIXME Mirroring for missing compilers currently does not work (https://github.com/spack/spack/issues/43092)
+			./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "${package}"
 		fi
 	fi
 
