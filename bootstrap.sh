@@ -66,6 +66,7 @@ bootstrap_install ()
 	package="$1"
 	compiler="$2"
 
+	test -n "${package}" || return 1
 	test -n "${compiler}" || compiler='gcc@12.3.0'
 
 	if bootstrap_in_phase prepare
@@ -87,13 +88,21 @@ bootstrap_install ()
 
 bootstrap_install_compiler ()
 {
+	local compiler
 	local location
+	local package
 
-	bootstrap_install "$@"
+	package="$1"
+	compiler="$2"
+
+	test -n "${package}" || return 1
+	test -n "${compiler}" || return 1
+
+	bootstrap_install "${package}" "${compiler}"
 
 	if bootstrap_in_phase build
 	then
-		location="$(./bin/spack location --install-dir "$@")"
+		location="$(./bin/spack location --install-dir "${package}" "%${compiler}")"
 		./bin/spack compiler find "${location}"
 	fi
 }
