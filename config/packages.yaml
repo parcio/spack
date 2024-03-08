@@ -16,6 +16,8 @@ packages:
     require: "+libidn2+nghttp2"
   doxygen:
     require: "+graphviz"
+  environment-modules:
+    require: "target=x86_64"
   gdb:
     # FIXME +debuginfod causes elfutils to fail building
     require: "~debuginfod~python"

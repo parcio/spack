@@ -60,19 +60,27 @@ bootstrap_apply_pr ()
 
 bootstrap_install ()
 {
+	local compiler
+	local package
+
+	package="$1"
+	compiler="$2"
+
+	test -n "${compiler}" || compiler='gcc@12.3.0'
+
 	if bootstrap_in_phase prepare
 	then
 		if test -n "${BOOTSTRAP_MIRROR}"
 		then
-			echo "Mirroring $*"
-			./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "$@" %gcc@12.3.0
+			echo "Mirroring ${package}"
+			./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "${package}" "%${compiler}"
 		fi
 	fi
 
 	if bootstrap_in_phase build
 	then
-		echo "Installing $*"
-		./bin/spack install "$@"
+		echo "Installing ${package}"
+		./bin/spack install "${package}"
 	fi
 }
 
@@ -189,10 +197,10 @@ esac
 ./bin/spack compiler remove "${BOOTSTRAP_COMPILER}" || true
 
 # Keep in sync with packages.yaml and modules.yaml
-bootstrap_install_compiler gcc@12.3.0 "%${BOOTSTRAP_COMPILER}"
+bootstrap_install_compiler gcc@12.3.0 "${BOOTSTRAP_COMPILER}"
 
 # Modules might not be installed system-wide
-bootstrap_install environment-modules target=x86_64
+bootstrap_install environment-modules
 
 # FIXME man in CentOS 8 cannot handle a long MANPATH
 bootstrap_install man-db
