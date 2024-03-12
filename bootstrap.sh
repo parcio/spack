@@ -133,6 +133,12 @@ bootstrap_create_env ()
 		# FIXME PMIx prints warning about missing Munge (https://github.com/open-mpi/ompi/issues/11557)
 		#printf 'export PMIX_MCA_psec=^munge\n'
 		printf '\n'
+		printf 'if test "$(hostname --short)" = '\''ants'\''\n'
+		printf 'then\n'
+		printf '	alias mpiexec='\''printf "You are attempting to execute an MPI job on the login node, please use SLURM instead.\\n"'\''\n'
+		printf '	alias mpirun='\''printf "You are attempting to execute an MPI job on the login node, please use SLURM instead.\\n"'\''\n'
+		printf 'fi\n'
+		printf '\n'
 		printf '. %s/share/spack/setup-env.sh\n' "$(pwd)"
 		printf '\n'
 		bootstrap_module_load man-db
