@@ -82,7 +82,7 @@ bootstrap_install ()
 	if bootstrap_in_phase build
 	then
 		echo "Installing ${package}"
-		./bin/spack install "${package}"
+		./bin/spack install "${package}" "%${compiler}"
 	fi
 }
 
