@@ -18,16 +18,6 @@ BOOTSTRAP_MIRROR="$(realpath "$(pwd)/../spack-mirror")"
 BOOTSTRAP_OS=''
 BOOTSTRAP_PHASE=''
 
-bootstrap_get_os ()
-{
-	test -f /etc/os-release
-
-	(
-		. /etc/os-release
-		printf '%s%s' "${ID}" "${VERSION_ID}"
-	)
-}
-
 bootstrap_in_phase ()
 {
 	local phase
@@ -56,6 +46,11 @@ bootstrap_apply_pr ()
 	rm --force "${pr}.diff"
 	curl --fail --location --remote-name "https://github.com/spack/spack/pull/${pr}.diff"
 	git apply --verbose "${pr}.diff"
+}
+
+bootstrap_get_os ()
+{
+	./bin/spack arch --operating-system
 }
 
 bootstrap_install ()
@@ -200,7 +195,7 @@ case "${BOOTSTRAP_OS}" in
 	centos8)
 		BOOTSTRAP_COMPILER='gcc@8.5.0'
 		;;
-	rocky9.*)
+	rocky9)
 		BOOTSTRAP_COMPILER='gcc@11.4.1'
 		;;
 	*)
@@ -333,7 +328,7 @@ then
 	#./bin/spack --print-shell-vars sh,modules > share/spack/setup-env.vars
 
 	# This is required for chaining to work
-	./bin/spack module tcl refresh --delete-tree --yes-to-all
+	./bin/spack module tcl refresh --delete-tree --yes-to-all "os=${BOOTSTRAP_OS}"
 
 	bootstrap_create_env
 
