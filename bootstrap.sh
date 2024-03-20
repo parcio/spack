@@ -115,38 +115,7 @@ bootstrap_module_load ()
 
 bootstrap_create_env ()
 {
-	local env_file
-
-	env_file='../env.sh'
-
-	{
-		printf 'test "$(id -u)" -eq 0 && return 0\n'
-		printf '\n'
-		printf 'export SPACK_DISABLE_LOCAL_CONFIG=1\n'
-		printf 'export SLURM_OVERLAP=1\n'
-		printf 'export SLURM_MPI_TYPE=pmi2\n'
-		# FIXME PMIx prints warning about missing Munge (https://github.com/open-mpi/ompi/issues/11557)
-		#printf 'export PMIX_MCA_psec=^munge\n'
-		printf '\n'
-		printf 'if test "$(hostname --short)" = '\''ants'\''\n'
-		printf 'then\n'
-		printf '	alias mpiexec='\''printf "You are attempting to execute an MPI job on the login node, please use SLURM instead.\\n"'\''\n'
-		printf '	alias mpirun='\''printf "You are attempting to execute an MPI job on the login node, please use SLURM instead.\\n"'\''\n'
-		printf 'fi\n'
-		printf '\n'
-		printf '. %s/share/spack/setup-env.sh\n' "$(pwd)"
-		printf '\n'
-		bootstrap_module_load man-db
-		bootstrap_module_load gcc
-		bootstrap_module_load python
-		bootstrap_module_load mpich
-		printf '\n'
-		bootstrap_module_load gdb
-		bootstrap_module_load git
-		bootstrap_module_load nano
-		bootstrap_module_load valgrind
-		bootstrap_module_load vim
-	} > "${env_file}"
+	sed "s#@SPACK_ROOT@#$(pwd)#" ../env.sh.in > ../env.sh
 }
 
 BOOTSTRAP_PHASE="$1"
