@@ -64,5 +64,6 @@ packages:
     # Keep in sync with bootstrap script
     compiler: [gcc@12.3.0]
     # Make sure to build for a generic architecture
-    target: [x86_64_v3]
+    # FIXME login node only supports v2
+    target: [x86_64_v2]
     # Warning: Adding global variants resets per-package variants (https://github.com/spack/spack/pull/10466)
