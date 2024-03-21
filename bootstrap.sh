@@ -184,8 +184,11 @@ bootstrap_install_compiler gcc@12.3.0 "${BOOTSTRAP_COMPILER}"
 # Modules might not be installed system-wide
 bootstrap_install environment-modules
 
-# FIXME man in CentOS 8 cannot handle a long MANPATH
-bootstrap_install man-db
+if test "${BOOTSTRAP_OS}" = 'centos8'
+then
+	# FIXME man in CentOS 8 cannot handle a long MANPATH
+	bootstrap_install man-db
+fi
 
 # MPI
 bootstrap_install mpich
