@@ -257,7 +257,8 @@ bootstrap_install vim
 # Languages
 bootstrap_install go
 bootstrap_install julia
-bootstrap_install llvm
+# FIXME llvm@18 does not build at the moment
+bootstrap_install llvm@17
 bootstrap_install perl
 bootstrap_install rust
 
