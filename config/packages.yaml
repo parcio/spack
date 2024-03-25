@@ -62,7 +62,7 @@ packages:
     # FIXME We cannot use requirements here (https://github.com/spack/spack/issues/34341)
     # FIXME require should work now
     # Keep in sync with bootstrap script
-    compiler: [gcc@12.3.0]
+    compiler: [gcc@13.2.0]
     # Make sure to build for a generic architecture
     # FIXME login node only supports v2
     target: [x86_64_v2]

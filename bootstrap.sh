@@ -62,7 +62,7 @@ bootstrap_install ()
 	compiler="$2"
 
 	test -n "${package}" || return 1
-	test -n "${compiler}" || compiler='gcc@12.3.0'
+	test -n "${compiler}" || compiler='gcc@13.2.0'
 
 	if bootstrap_in_phase prepare
 	then
@@ -179,7 +179,7 @@ esac
 ./bin/spack compiler find
 
 # Keep in sync with packages.yaml and modules.yaml
-bootstrap_install_compiler gcc@12.3.0 "${BOOTSTRAP_COMPILER}"
+bootstrap_install_compiler gcc@13.2.0 "${BOOTSTRAP_COMPILER}"
 
 # Modules might not be installed system-wide
 bootstrap_install environment-modules
