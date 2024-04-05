@@ -102,17 +102,6 @@ bootstrap_install_compiler ()
 	fi
 }
 
-bootstrap_module_load ()
-{
-	local module
-
-	module="$1"
-
-	test -n "${module}" || return 1
-
-	printf 'module load %s > /dev/null || echo "Could not load %s"\n' "${module}" "${module}"
-}
-
 bootstrap_create_env ()
 {
 	sed "s#@SPACK_ROOT@#$(pwd)#" ../env.sh.in > ../env.sh
@@ -127,7 +116,10 @@ then
 	. /etc/profile.d/modules.sh
 fi
 
-module purge || true
+if command -v module >/dev/null 2>&1
+then
+	module purge
+fi
 
 cd spack
 
