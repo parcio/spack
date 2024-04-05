@@ -105,7 +105,10 @@ bootstrap_install_compiler ()
 
 bootstrap_create_env ()
 {
-	sed "s#@SPACK_ROOT@#$(pwd)#" ../env.sh.in > ../env.sh
+	sed \
+		--expression="s#@BOOTSTRAP_CONFIG@#${BOOTSTRAP_CONFIG}#" \
+		--expression="s#@SPACK_ROOT@#$(pwd)#" \
+		../env.sh.in > ../env.sh
 }
 
 BOOTSTRAP_CONFIG="$1"
