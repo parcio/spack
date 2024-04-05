@@ -8,5 +8,5 @@ The ParCIO software stack is managed using [Spack](https://spack.io/).
 $ git clone https://github.com/parcio/spack.git
 $ cd spack
 $ git submodule update --init
-$ ./bootstrap.sh
+$ ./bootstrap.sh $config
 ```

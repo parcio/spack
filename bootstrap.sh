@@ -8,14 +8,15 @@ SELF_BASE="${SELF_PATH##*/}"
 
 usage ()
 {
-	printf 'Usage: %s [prepare|build]\n' "${SELF_BASE}"
+	printf 'Usage: %s config [prepare|build]\n' "${SELF_BASE}"
 	exit 1
 }
 
-BOOTSTRAP_COMPILER=''
+BOOTSTRAP_CONFIG=''
+BOOTSTRAP_CONFIG_COMPILER=''
+BOOTSTRAP_CONFIG_OS=''
 BOOTSTRAP_MIRROR="$(realpath "$(pwd)/../spack-mirror")"
 #BOOTSTRAP_MIRROR=''
-BOOTSTRAP_OS=''
 BOOTSTRAP_PHASE=''
 
 bootstrap_in_phase ()
@@ -107,8 +108,10 @@ bootstrap_create_env ()
 	sed "s#@SPACK_ROOT@#$(pwd)#" ../env.sh.in > ../env.sh
 }
 
-BOOTSTRAP_PHASE="$1"
+BOOTSTRAP_CONFIG="$1"
+BOOTSTRAP_PHASE="$2"
 
+test -n "${BOOTSTRAP_CONFIG}" || usage
 test -z "${BOOTSTRAP_PHASE}" -o "${BOOTSTRAP_PHASE}" = 'prepare' -o "${BOOTSTRAP_PHASE}" = 'build' || usage
 
 if test -f /etc/profile.d/modules.sh
@@ -151,34 +154,40 @@ then
 	fi
 fi
 
-BOOTSTRAP_OS="$(bootstrap_get_os)"
-
-case "${BOOTSTRAP_OS}" in
-	centos8)
-		BOOTSTRAP_COMPILER='gcc@8.5.0'
+case "${BOOTSTRAP_CONFIG}" in
+	ants)
+		BOOTSTRAP_CONFIG_OS='rocky9'
+		BOOTSTRAP_CONFIG_COMPILER='gcc@11.4.1'
 		;;
-	rocky9)
-		BOOTSTRAP_COMPILER='gcc@11.4.1'
+	ants-old)
+		BOOTSTRAP_CONFIG_OS='centos8'
+		BOOTSTRAP_CONFIG_COMPILER='gcc@8.5.0'
+		;;
+	sofja)
+		BOOTSTRAP_CONFIG_OS='rocky8'
+		BOOTSTRAP_CONFIG_COMPILER='gcc@8.4.1'
 		;;
 	*)
-		printf 'OS %s is not supported.\n' "${BOOTSTRAP_OS}"
+		printf 'Config %s is not supported.\n' "${BOOTSTRAP_CONFIG}"
 		exit 1
 		;;
 esac
 
+test "${BOOTSTRAP_CONFIG_OS}" = "$(bootstrap_get_os)" || exit 1
+
 # Force recreating the compiler configuration since it might be different from the prepare phase
-./bin/spack compiler remove "${BOOTSTRAP_COMPILER}" || true
+./bin/spack compiler remove "${BOOTSTRAP_CONFIG_COMPILER}" || true
 ./bin/spack compiler find
 
 # Keep in sync with packages.yaml and modules.yaml
-bootstrap_install_compiler gcc@13.2.0 "${BOOTSTRAP_COMPILER}"
+bootstrap_install_compiler gcc@13.2.0 "${BOOTSTRAP_CONFIG_COMPILER}"
 
 # Modules might not be installed system-wide
 bootstrap_install environment-modules
 
-if test "${BOOTSTRAP_OS}" = 'centos8'
+if test "${BOOTSTRAP_CONFIG_OS}" = 'centos8' -o "${BOOTSTRAP_CONFIG_OS}" = 'rocky8'
 then
-	# FIXME man in CentOS 8 cannot handle a long MANPATH
+	# man in CentOS/Rocky Linux 8 cannot handle a long MANPATH
 	bootstrap_install man-db
 fi
 
@@ -294,7 +303,7 @@ then
 	./bin/spack --print-shell-vars sh,modules > share/spack/setup-env.vars
 
 	# This is required for chaining to work
-	./bin/spack module tcl refresh --delete-tree --yes-to-all "os=${BOOTSTRAP_OS}"
+	./bin/spack module tcl refresh --delete-tree --yes-to-all "os=${BOOTSTRAP_CONFIG_OS}"
 
 	bootstrap_create_env
 
