@@ -28,8 +28,7 @@ modules:
       # Keep in sync with bootstrap script
       exclude: ["%gcc@8.4.1", "%gcc@8.5.0", "%gcc@11.4.1"]
       # Hide modules for dependencies
-      # FIXME requires modules >= 4.7 (https://github.com/spack/spack/issues/40940)
-      hide_implicits: false
+      hide_implicits: true
       all:
         # Only load run dependencies
         autoload: "run"
