@@ -275,6 +275,9 @@ bootstrap_install rust
 bootstrap_install gnuplot
 bootstrap_install graphviz
 
+# Multimedia
+bootstrap_install ffmpeg
+
 # Python
 bootstrap_install python
 bootstrap_install py-flake8
