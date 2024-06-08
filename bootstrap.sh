@@ -203,7 +203,6 @@ fi
 bootstrap_install mpich
 
 # I/O
-bootstrap_install adios
 bootstrap_install adios2
 bootstrap_install fio
 bootstrap_install hdf5

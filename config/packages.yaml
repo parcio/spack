@@ -1,6 +1,4 @@
 packages:
-  adios:
-    require: "+hdf5"
   adios2:
     require: "+hdf5"
   binutils:
@@ -16,13 +14,13 @@ packages:
     require: "+libidn2+nghttp2"
   doxygen:
     require: "+graphviz"
+  elfutils:
+    # GDB depends on elfutils with this variant
+    require: "+debuginfod"
   environment-modules:
     require: "target=x86_64"
   ffmpeg:
     require: "+libaom+libmp3lame+libopenjpeg+libopus+libspeex+libvorbis+libvpx+libwebp+libx264+nonfree"
-  gdb:
-    # FIXME +debuginfod causes elfutils to fail building
-    require: "~debuginfod~python"
   gnuplot:
     require: "+X"
   graphviz:
@@ -53,8 +51,6 @@ packages:
     require: "+jit"
   py-matplotlib:
     require: "backend=qt5agg"
-  py-torch:
-    require: "~mkldnn"
   qt:
     require: "+opengl"
   qt-base:
