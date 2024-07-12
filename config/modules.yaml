@@ -7,11 +7,9 @@ modules:
       - CPLUS_INCLUDE_PATH
     # LD_RUN_PATH automatically sets the rpath if users do not overwrite it (https://github.com/spack/spack/pull/11071)
     lib:
-      - LD_LIBRARY_PATH
       - LIBRARY_PATH
       - LD_RUN_PATH
     lib64:
-      - LD_LIBRARY_PATH
       - LIBRARY_PATH
       - LD_RUN_PATH
   default:
@@ -24,9 +22,9 @@ modules:
         all: "{name}/{version}"
       # Create a module for the compiler we build using the system compiler
       include: ["gcc"]
-      # Do not generate modules for anything built with the system compiler
+      # Do not generate modules for anything else built with the system compiler
       # Keep in sync with bootstrap script
-      exclude: ["%gcc@8.4.1", "%gcc@8.5.0", "%gcc@11.4.1"]
+      exclude: ["%gcc@8", "%gcc@11"]
       # Hide modules for dependencies
       hide_implicits: true
       all:
