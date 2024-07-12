@@ -63,7 +63,7 @@ bootstrap_install ()
 	compiler="$2"
 
 	test -n "${package}" || return 1
-	test -n "${compiler}" || compiler='gcc@14.1.0'
+	test -n "${compiler}" || compiler='gcc@14'
 
 	if bootstrap_in_phase prepare
 	then
@@ -141,10 +141,6 @@ then
 	#bootstrap_apply_pr xyz
 	bootstrap_apply_pr 43158
 	bootstrap_apply_pr 43519
-	bootstrap_apply_pr 44120
-	bootstrap_apply_pr 44133
-	bootstrap_apply_pr 44134
-	bootstrap_apply_pr 44138
 
 	rm --force --recursive "${HOME}/.spack"
 
@@ -153,7 +149,10 @@ then
 	cp ../config/concretizer.yaml etc/spack
 	cp ../config/config.yaml etc/spack
 	cp ../config/modules.yaml etc/spack
-	cp ../config/packages.yaml etc/spack
+
+	sed \
+		--expression="s#@BOOTSTRAP_CONFIG_CUDA@#${BOOTSTRAP_CONFIG_CUDA}#g" \
+		../config/packages.yaml.in > etc/spack/packages.yaml
 
 	if test -n "${BOOTSTRAP_MIRROR}"
 	then
@@ -165,15 +164,15 @@ fi
 case "${BOOTSTRAP_CONFIG}" in
 	ants)
 		BOOTSTRAP_CONFIG_OS='rocky9'
-		BOOTSTRAP_CONFIG_COMPILER='gcc@11.4.1'
-		;;
-	ants-old)
-		BOOTSTRAP_CONFIG_OS='centos8'
-		BOOTSTRAP_CONFIG_COMPILER='gcc@8.5.0'
+		BOOTSTRAP_CONFIG_COMPILER='gcc@11'
+		BOOTSTRAP_CONFIG_CUDA='12.3'
+		BOOTSTRAP_CONFIG_CUDA_COMPILER='gcc@12'
 		;;
 	sofja)
 		BOOTSTRAP_CONFIG_OS='rocky8'
-		BOOTSTRAP_CONFIG_COMPILER='gcc@8.4.1'
+		BOOTSTRAP_CONFIG_COMPILER='gcc@8'
+		BOOTSTRAP_CONFIG_CUDA='12.4'
+		BOOTSTRAP_CONFIG_CUDA_COMPILER='gcc@13'
 		;;
 	*)
 		printf 'Config %s is not supported.\n' "${BOOTSTRAP_CONFIG}"
@@ -188,7 +187,9 @@ test "${BOOTSTRAP_CONFIG_OS}" = "$(bootstrap_get_os)" || exit 1
 ./bin/spack compiler find
 
 # Keep in sync with packages.yaml and modules.yaml
-bootstrap_install_compiler gcc@14.1.0 "${BOOTSTRAP_CONFIG_COMPILER}"
+bootstrap_install_compiler gcc@14 "${BOOTSTRAP_CONFIG_COMPILER}"
+# CUDA requires an older GCC
+bootstrap_install_compiler "${BOOTSTRAP_CONFIG_CUDA_COMPILER}" "${BOOTSTRAP_CONFIG_COMPILER}"
 
 # Modules might not be installed system-wide
 bootstrap_install environment-modules

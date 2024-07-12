@@ -10,6 +10,8 @@ packages:
   cairo:
     # FIXME +svg cannot be concretized at the moment
     require: "+fc+ft+gobject+pdf+png+X"
+  cuda:
+    require: "@@BOOTSTRAP_CONFIG_CUDA@"
   curl:
     require: "+libidn2+nghttp2"
   doxygen:
@@ -51,6 +53,8 @@ packages:
     require: "+jit"
   py-matplotlib:
     require: "backend=qt5agg"
+  py-torch:
+    require: "+cuda cuda_arch=80,86"
   qt:
     require: "+opengl"
   qt-base:
@@ -63,7 +67,7 @@ packages:
     # FIXME We cannot use requirements here (https://github.com/spack/spack/issues/34341)
     # FIXME require should work now
     # Keep in sync with bootstrap script
-    compiler: [gcc@14.1.0]
+    compiler: [gcc@14]
     # Make sure to build for a generic architecture
     target: [x86_64_v3]
     # Warning: Adding global variants resets per-package variants (https://github.com/spack/spack/pull/10466)
