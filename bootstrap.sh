@@ -117,6 +117,25 @@ BOOTSTRAP_PHASE="$2"
 test -n "${BOOTSTRAP_CONFIG}" || usage
 test -z "${BOOTSTRAP_PHASE}" -o "${BOOTSTRAP_PHASE}" = 'prepare' -o "${BOOTSTRAP_PHASE}" = 'build' || usage
 
+case "${BOOTSTRAP_CONFIG}" in
+	ants)
+		BOOTSTRAP_CONFIG_OS='rocky9'
+		BOOTSTRAP_CONFIG_COMPILER='gcc@11'
+		BOOTSTRAP_CONFIG_CUDA='12.3'
+		BOOTSTRAP_CONFIG_CUDA_COMPILER='gcc@12'
+		;;
+	sofja)
+		BOOTSTRAP_CONFIG_OS='rocky8'
+		BOOTSTRAP_CONFIG_COMPILER='gcc@8'
+		BOOTSTRAP_CONFIG_CUDA='12.4'
+		BOOTSTRAP_CONFIG_CUDA_COMPILER='gcc@13'
+		;;
+	*)
+		printf 'Config %s is not supported.\n' "${BOOTSTRAP_CONFIG}"
+		exit 1
+		;;
+esac
+
 if test -f /etc/profile.d/modules.sh
 then
 	. /etc/profile.d/modules.sh
@@ -160,25 +179,6 @@ then
 		./bin/spack mirror add local "file://${BOOTSTRAP_MIRROR}"
 	fi
 fi
-
-case "${BOOTSTRAP_CONFIG}" in
-	ants)
-		BOOTSTRAP_CONFIG_OS='rocky9'
-		BOOTSTRAP_CONFIG_COMPILER='gcc@11'
-		BOOTSTRAP_CONFIG_CUDA='12.3'
-		BOOTSTRAP_CONFIG_CUDA_COMPILER='gcc@12'
-		;;
-	sofja)
-		BOOTSTRAP_CONFIG_OS='rocky8'
-		BOOTSTRAP_CONFIG_COMPILER='gcc@8'
-		BOOTSTRAP_CONFIG_CUDA='12.4'
-		BOOTSTRAP_CONFIG_CUDA_COMPILER='gcc@13'
-		;;
-	*)
-		printf 'Config %s is not supported.\n' "${BOOTSTRAP_CONFIG}"
-		exit 1
-		;;
-esac
 
 test "${BOOTSTRAP_CONFIG_OS}" = "$(bootstrap_get_os)" || exit 1
 
