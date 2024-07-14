@@ -160,6 +160,7 @@ then
 	#bootstrap_apply_pr xyz
 	bootstrap_apply_pr 43158
 	bootstrap_apply_pr 43519
+	bootstrap_apply_pr 45226
 
 	rm --force --recursive "${HOME}/.spack"
 
@@ -298,11 +299,13 @@ bootstrap_install py-scipy
 bootstrap_install py-seaborn
 bootstrap_install py-sphinx
 #bootstrap_install py-tensorflow
-bootstrap_install py-torch
 bootstrap_install py-virtualenv
 
 # R
 bootstrap_install r
+
+# CUDA
+bootstrap_install py-torch "${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
 
 if bootstrap_in_phase build
 then

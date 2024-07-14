@@ -16,9 +16,6 @@ packages:
     require: "+libidn2+nghttp2"
   doxygen:
     require: "+graphviz"
-  elfutils:
-    # GDB depends on elfutils with this variant
-    require: "+debuginfod"
   environment-modules:
     require: "target=x86_64"
   ffmpeg:
