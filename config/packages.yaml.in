@@ -26,9 +26,6 @@ packages:
     require: "+libgd+pangocairo+poppler"
   hdf5:
     require: "+hl+szip+threadsafe"
-  julia:
-    # FIXME @1.10 does not build at the moment
-    require: "@1.9"
   libfabric:
     require: "fabrics=sockets,tcp,udp,verbs,rxd,rxm"
   libfuse:
