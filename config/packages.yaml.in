@@ -45,6 +45,8 @@ packages:
     require: "+X"
   pcre:
     require: "+jit"
+  postgresql:
+    require: "+client_only+threadsafe"
   py-matplotlib:
     require: "backend=qt5agg"
   py-torch:

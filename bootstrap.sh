@@ -253,6 +253,10 @@ bootstrap_install ninja
 bootstrap_install pkgconf
 bootstrap_install qt-base
 
+# Database
+bootstrap_install mariadb-c-client
+bootstrap_install postgresql
+
 # Tools
 bootstrap_install emacs
 bootstrap_install gdb
