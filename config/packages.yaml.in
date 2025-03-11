@@ -40,7 +40,8 @@ packages:
   mpich:
     require: "device=ch4 netmod=ofi"
   octave:
-    require: "+arpack+fftw+fontconfig+freetype+gl2ps+gnuplot+hdf5+llvm+opengl+qrupdate+qscintilla+qt+readline+suitesparse"
+    # FIXME +opengl+qscintilla+qt
+    require: "+arpack+fftw+fontconfig+freetype+gl2ps+gnuplot+hdf5+llvm+qrupdate+readline+suitesparse"
   pango:
     require: "+X"
   pcre:
