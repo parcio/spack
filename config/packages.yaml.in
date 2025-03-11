@@ -19,7 +19,8 @@ packages:
   environment-modules:
     require: "target=x86_64"
   ffmpeg:
-    require: "+libaom+libmp3lame+libopenjpeg+libopus+libspeex+libvorbis+libvpx+libwebp+libx264+nonfree"
+    # FIXME +libaom
+    require: "+libmp3lame+libopenjpeg+libopus+libspeex+libvorbis+libvpx+libwebp+libx264+nonfree"
   gnuplot:
     require: "+X"
   graphviz:
