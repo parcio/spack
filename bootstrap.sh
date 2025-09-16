@@ -66,7 +66,7 @@ bootstrap_install ()
 	compiler="$2"
 
 	test -n "${package}" || return 1
-	test -n "${compiler}" || compiler='gcc@14'
+	test -n "${compiler}" || compiler='gcc@15'
 
 	if bootstrap_in_phase prepare
 	then
@@ -201,7 +201,7 @@ test "${BOOTSTRAP_CONFIG_OS}" = "$(bootstrap_get_os)" || exit 1
 ./bin/spack compiler find
 
 # Keep in sync with packages.yaml and modules.yaml
-bootstrap_install_compiler gcc@14 "${BOOTSTRAP_CONFIG_COMPILER}"
+bootstrap_install_compiler gcc@15 "${BOOTSTRAP_CONFIG_COMPILER}"
 # CUDA requires an older GCC
 bootstrap_install_compiler "${BOOTSTRAP_CONFIG_CUDA_COMPILER}" "${BOOTSTRAP_CONFIG_COMPILER}"
 

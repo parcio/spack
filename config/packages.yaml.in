@@ -64,7 +64,9 @@ packages:
     # FIXME We cannot use requirements here (https://github.com/spack/spack/issues/34341)
     # FIXME require should work now
     # Keep in sync with bootstrap script
-    compiler: [gcc@14]
+    c: [gcc@15]
+    cxx: [gcc@15]
+    fortran: [gcc@15]
     # Make sure to build for a generic architecture
     target: [x86_64_v3]
     # Warning: Adding global variants resets per-package variants (https://github.com/spack/spack/pull/10466)
