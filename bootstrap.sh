@@ -39,13 +39,16 @@ bootstrap_in_phase ()
 bootstrap_apply_pr ()
 {
 	local pr
+	local repo
 
-	pr="$1"
+	repo="$1"
+	pr="$2"
 
+	test -n "${repo}" || return 1
 	test -n "${pr}" || return 1
 
 	rm --force "${pr}.diff"
-	curl --fail --location --remote-name "https://github.com/spack/spack/pull/${pr}.diff"
+	curl --fail --location --remote-name "https://github.com/spack/${repo}/pull/${pr}.diff"
 	git apply --verbose "${pr}.diff"
 }
 
@@ -149,17 +152,26 @@ fi
 cd spack
 
 export SPACK_DISABLE_LOCAL_CONFIG=1
+# FIXME set SPACK_USER_CACHE_PATH?
 
 if bootstrap_in_phase prepare
 then
+	pushd ../spack-packages
+
+	git checkout --force
+
+	bootstrap_apply_pr spack-packages 330
+
+	popd
+
 	git checkout --force
 
 	# FIXME Find a better way to do this
 	git apply --verbose ../patches/env.patch
 
 	#bootstrap_apply_pr xyz
-	bootstrap_apply_pr 43158
-	bootstrap_apply_pr 43519
+	bootstrap_apply_pr spack 43158
+	bootstrap_apply_pr spack 43519
 
 	rm --force --recursive "${HOME}/.spack"
 
@@ -172,6 +184,8 @@ then
 	sed \
 		--expression="s#@BOOTSTRAP_CONFIG_CUDA@#${BOOTSTRAP_CONFIG_CUDA}#g" \
 		../config/packages.yaml.in > etc/spack/packages.yaml
+
+	./bin/spack repo set --destination "$(realpath --canonicalize-existing ../spack-packages)" builtin
 
 	if test -n "${BOOTSTRAP_MIRROR}"
 	then
