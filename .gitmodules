@@ -1,3 +1,7 @@
 [submodule "spack"]
 	path = spack
 	url = https://github.com/spack/spack.git
+	branch = releases/v1.0
+[submodule "spack-packages"]
+	path = spack-packages
+	url = https://github.com/spack/spack-packages.git
