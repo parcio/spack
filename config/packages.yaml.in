@@ -1,13 +1,13 @@
 packages:
   c:
     # Keep in sync with bootstrap script
-    prefer: ["%gcc@15"]
+    prefer: ["gcc@15"]
   cxx:
     # Keep in sync with bootstrap script
-    prefer: ["%gcc@15"]
+    prefer: ["gcc@15"]
   fortran:
     # Keep in sync with bootstrap script
-    prefer: ["%gcc@15"]
+    prefer: ["gcc@15"]
   adios2:
     require: "+hdf5"
   binutils:
