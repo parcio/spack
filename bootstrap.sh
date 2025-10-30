@@ -161,6 +161,7 @@ then
 	git checkout --force
 
 	bootstrap_apply_pr spack-packages 330
+	bootstrap_apply_pr spack-packages 2197
 
 	popd
 
