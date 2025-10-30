@@ -8,8 +8,7 @@ packages:
     # Valgrind depends on Boost with these variants
     require: "+atomic+chrono+exception+system+thread"
   cairo:
-    # FIXME +svg cannot be concretized at the moment
-    require: "+fc+ft+gobject+pdf+png+X"
+    require: "+gobject+X"
   cuda:
     require: "@@BOOTSTRAP_CONFIG_CUDA@"
   curl:
