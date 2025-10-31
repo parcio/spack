@@ -8,7 +8,7 @@ SELF_BASE="${SELF_PATH##*/}"
 
 usage ()
 {
-	printf 'Usage: %s config [prepare|build]\n' "${SELF_BASE}"
+	printf 'Usage: %s config\n' "${SELF_BASE}"
 	exit 1
 }
 
@@ -137,6 +137,7 @@ git checkout --force
 
 bootstrap_apply_pr spack-packages 330
 bootstrap_apply_pr spack-packages 2197
+bootstrap_apply_pr spack-packages 2216
 
 popd
 
