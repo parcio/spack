@@ -13,28 +13,12 @@ usage ()
 }
 
 BOOTSTRAP_CONFIG=''
-BOOTSTRAP_CONFIG_COMPILER=''
 BOOTSTRAP_CONFIG_OS=''
+BOOTSTRAP_CONFIG_OS_COMPILER=''
+BOOTSTRAP_CONFIG_CUDA=''
+BOOTSTRAP_CONFIG_CUDA_COMPILER=''
 BOOTSTRAP_MIRROR="$(realpath "$(pwd)/../spack-mirror")"
 #BOOTSTRAP_MIRROR=''
-BOOTSTRAP_PHASE=''
-
-bootstrap_in_phase ()
-{
-	local phase
-
-	phase="$1"
-
-	test -n "${phase}" || return 1
-	test "${phase}" = 'prepare' -o "${phase}" = 'build' || return 1
-
-	if test -z "${BOOTSTRAP_PHASE}" -o "${BOOTSTRAP_PHASE}" = "${phase}"
-	then
-		return 0
-	else
-		return 1
-	fi
-}
 
 bootstrap_apply_pr ()
 {
@@ -66,23 +50,21 @@ bootstrap_install ()
 	compiler="$2"
 
 	test -n "${package}" || return 1
-	test -n "${compiler}" || compiler='gcc@15'
 
-	if bootstrap_in_phase prepare
+	if test -n "${compiler}"
 	then
-		if test -n "${BOOTSTRAP_MIRROR}"
-		then
-			echo "Mirroring ${package}"
-			# FIXME Mirroring for missing compilers currently does not work (https://github.com/spack/spack/issues/43092)
-			./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "${package}"
-		fi
+		compiler="%${compiler}"
 	fi
 
-	if bootstrap_in_phase build
+	if test -n "${BOOTSTRAP_MIRROR}"
 	then
-		echo "Installing ${package}"
-		./bin/spack install "${package}" "%${compiler}"
+		echo "Mirroring ${package}"
+		# FIXME Mirroring for missing compilers currently does not work (https://github.com/spack/spack/issues/43092)
+		./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "${package}"
 	fi
+
+	echo "Installing ${package}"
+	./bin/spack install "${package}" ${compiler}
 }
 
 bootstrap_install_compiler ()
@@ -99,11 +81,8 @@ bootstrap_install_compiler ()
 
 	bootstrap_install "${package}" "${compiler}"
 
-	if bootstrap_in_phase build
-	then
-		location="$(./bin/spack location --install-dir "${package}" "%${compiler}")"
-		./bin/spack compiler find "${location}"
-	fi
+	location="$(./bin/spack location --install-dir "${package}" "%${compiler}")"
+	./bin/spack compiler find "${location}"
 }
 
 bootstrap_create_env ()
@@ -115,21 +94,19 @@ bootstrap_create_env ()
 }
 
 BOOTSTRAP_CONFIG="$1"
-BOOTSTRAP_PHASE="$2"
 
 test -n "${BOOTSTRAP_CONFIG}" || usage
-test -z "${BOOTSTRAP_PHASE}" -o "${BOOTSTRAP_PHASE}" = 'prepare' -o "${BOOTSTRAP_PHASE}" = 'build' || usage
 
 case "${BOOTSTRAP_CONFIG}" in
 	ants)
 		BOOTSTRAP_CONFIG_OS='rocky9'
-		BOOTSTRAP_CONFIG_COMPILER='gcc@11'
+		BOOTSTRAP_CONFIG_OS_COMPILER='gcc@11'
 		BOOTSTRAP_CONFIG_CUDA='12.3'
 		BOOTSTRAP_CONFIG_CUDA_COMPILER='gcc@12'
 		;;
 	sofja)
 		BOOTSTRAP_CONFIG_OS='rocky8'
-		BOOTSTRAP_CONFIG_COMPILER='gcc@8'
+		BOOTSTRAP_CONFIG_OS_COMPILER='gcc@8'
 		BOOTSTRAP_CONFIG_CUDA='12.4'
 		BOOTSTRAP_CONFIG_CUDA_COMPILER='gcc@13'
 		;;
@@ -154,57 +131,54 @@ cd spack
 export SPACK_DISABLE_LOCAL_CONFIG=1
 # FIXME set SPACK_USER_CACHE_PATH?
 
-if bootstrap_in_phase prepare
+pushd ../spack-packages
+
+git checkout --force
+
+bootstrap_apply_pr spack-packages 330
+bootstrap_apply_pr spack-packages 2197
+
+popd
+
+git checkout --force
+
+# FIXME Find a better way to do this
+git apply --verbose ../patches/env.patch
+
+#bootstrap_apply_pr xyz
+bootstrap_apply_pr spack 43158
+bootstrap_apply_pr spack 43519
+
+rm --force --recursive "${HOME}/.spack"
+
+rm --force etc/spack/mirrors.yaml
+
+cp ../config/concretizer.yaml etc/spack
+cp ../config/config.yaml etc/spack
+cp ../config/modules.yaml etc/spack
+
+sed \
+	--expression="s#@BOOTSTRAP_CONFIG_CUDA@#${BOOTSTRAP_CONFIG_CUDA}#g" \
+	../config/packages.yaml.in > etc/spack/packages.yaml
+
+./bin/spack repo set --destination "$(realpath --canonicalize-existing ../spack-packages)" builtin
+
+if test -n "${BOOTSTRAP_MIRROR}"
 then
-	pushd ../spack-packages
-
-	git checkout --force
-
-	bootstrap_apply_pr spack-packages 330
-	bootstrap_apply_pr spack-packages 2197
-
-	popd
-
-	git checkout --force
-
-	# FIXME Find a better way to do this
-	git apply --verbose ../patches/env.patch
-
-	#bootstrap_apply_pr xyz
-	bootstrap_apply_pr spack 43158
-	bootstrap_apply_pr spack 43519
-
-	rm --force --recursive "${HOME}/.spack"
-
-	rm --force etc/spack/mirrors.yaml
-
-	cp ../config/concretizer.yaml etc/spack
-	cp ../config/config.yaml etc/spack
-	cp ../config/modules.yaml etc/spack
-
-	sed \
-		--expression="s#@BOOTSTRAP_CONFIG_CUDA@#${BOOTSTRAP_CONFIG_CUDA}#g" \
-		../config/packages.yaml.in > etc/spack/packages.yaml
-
-	./bin/spack repo set --destination "$(realpath --canonicalize-existing ../spack-packages)" builtin
-
-	if test -n "${BOOTSTRAP_MIRROR}"
-	then
-		mkdir --parents "${BOOTSTRAP_MIRROR}"
-		./bin/spack mirror add local "file://${BOOTSTRAP_MIRROR}"
-	fi
+	mkdir --parents "${BOOTSTRAP_MIRROR}"
+	./bin/spack mirror add local "file://${BOOTSTRAP_MIRROR}"
 fi
 
 test "${BOOTSTRAP_CONFIG_OS}" = "$(bootstrap_get_os)" || exit 1
 
-# Force recreating the compiler configuration since it might be different from the prepare phase
-./bin/spack compiler remove "${BOOTSTRAP_CONFIG_COMPILER}" || true
+# Force recreating the compiler configuration since it might have changed
+./bin/spack compiler remove "${BOOTSTRAP_CONFIG_OS_COMPILER}" || true
 ./bin/spack compiler find
 
 # Keep in sync with packages.yaml and modules.yaml
-bootstrap_install_compiler gcc@15 "${BOOTSTRAP_CONFIG_COMPILER}"
+bootstrap_install_compiler gcc@15 "${BOOTSTRAP_CONFIG_OS_COMPILER}"
 # CUDA requires an older GCC
-bootstrap_install_compiler "${BOOTSTRAP_CONFIG_CUDA_COMPILER}" "${BOOTSTRAP_CONFIG_COMPILER}"
+bootstrap_install_compiler "${BOOTSTRAP_CONFIG_CUDA_COMPILER}" "${BOOTSTRAP_CONFIG_OS_COMPILER}"
 
 # Modules might not be installed system-wide
 bootstrap_install environment-modules
@@ -324,23 +298,20 @@ bootstrap_install r
 # CUDA
 bootstrap_install py-torch "${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
 
-if bootstrap_in_phase build
+# Remove all unneeded packages
+./bin/spack gc --yes-to-all
+
+# Precreate the variables for our hack in setup-env.sh
+# FIXME Does not work with more than one OS
+./bin/spack --print-shell-vars sh,modules > share/spack/setup-env.vars
+
+# This is required for chaining to work
+./bin/spack module tcl refresh --delete-tree --yes-to-all "os=${BOOTSTRAP_CONFIG_OS}"
+
+bootstrap_create_env
+
+if test -n "${BOOTSTRAP_MIRROR}"
 then
-	# Remove all unneeded packages
-	./bin/spack gc --yes-to-all
-
-	# Precreate the variables for our hack in setup-env.sh
-	# FIXME Does not work with more than one OS
-	./bin/spack --print-shell-vars sh,modules > share/spack/setup-env.vars
-
-	# This is required for chaining to work
-	./bin/spack module tcl refresh --delete-tree --yes-to-all "os=${BOOTSTRAP_CONFIG_OS}"
-
-	bootstrap_create_env
-
-	if test -n "${BOOTSTRAP_MIRROR}"
-	then
-		# Remove cached downloads, which are also available in the mirror
-		./bin/spack clean --downloads
-	fi
+	# Remove cached downloads, which are also available in the mirror
+	./bin/spack clean --downloads
 fi
