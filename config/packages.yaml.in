@@ -58,6 +58,8 @@ packages:
     require: "+jit"
   postgresql:
     require: "+client_only+threadsafe"
+  python:
+    prefer: ["@3.13"]
   py-matplotlib:
     require: "backend=qt5agg"
   py-torch:

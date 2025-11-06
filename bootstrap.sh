@@ -279,12 +279,12 @@ bootstrap_install python
 bootstrap_install py-flake8
 #bootstrap_install py-keras
 bootstrap_install py-h5py
+bootstrap_install py-jupyterlab
 bootstrap_install py-matplotlib
 bootstrap_install py-netcdf4
 bootstrap_install py-numpy
 bootstrap_install py-pandas
 bootstrap_install py-pip
-bootstrap_install py-poetry
 bootstrap_install py-requests
 bootstrap_install py-scikit-learn
 bootstrap_install py-scipy
