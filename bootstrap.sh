@@ -135,10 +135,6 @@ pushd ../spack-packages
 
 git checkout --force
 
-bootstrap_apply_pr spack-packages 330
-bootstrap_apply_pr spack-packages 2197
-bootstrap_apply_pr spack-packages 2216
-
 popd
 
 git checkout --force
