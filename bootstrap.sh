@@ -60,7 +60,7 @@ bootstrap_install ()
 	then
 		echo "Mirroring ${package}"
 		# FIXME Mirroring for missing compilers currently does not work (https://github.com/spack/spack/issues/43092)
-		./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "${package}"
+		./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "${package}" ${compiler}
 	fi
 
 	echo "Installing ${package}"
@@ -135,6 +135,9 @@ pushd ../spack-packages
 
 git checkout --force
 
+#bootstrap_apply_pr spack-packages xyz
+bootstrap_apply_pr spack-packages 2327
+
 popd
 
 git checkout --force
@@ -142,7 +145,7 @@ git checkout --force
 # FIXME Find a better way to do this
 git apply --verbose ../patches/env.patch
 
-#bootstrap_apply_pr xyz
+#bootstrap_apply_pr spack xyz
 bootstrap_apply_pr spack 43158
 bootstrap_apply_pr spack 43519
 
@@ -258,7 +261,8 @@ bootstrap_install vim
 
 # Languages
 bootstrap_install go
-bootstrap_install julia
+# FIXME Julia needs LLVM that does not build with GCC 15.
+bootstrap_install julia "${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
 bootstrap_install llvm
 bootstrap_install perl
 bootstrap_install rust
