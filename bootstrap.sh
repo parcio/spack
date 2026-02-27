@@ -136,7 +136,6 @@ pushd ../spack-packages
 git checkout --force
 
 #bootstrap_apply_pr spack-packages xyz
-bootstrap_apply_pr spack-packages 2327
 
 popd
 
@@ -147,7 +146,6 @@ git apply --verbose ../patches/env.patch
 
 #bootstrap_apply_pr spack xyz
 bootstrap_apply_pr spack 43158
-bootstrap_apply_pr spack 43519
 
 rm --force --recursive "${HOME}/.spack"
 
