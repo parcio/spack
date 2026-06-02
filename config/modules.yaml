@@ -1,6 +1,5 @@
 modules:
   prefix_inspections:
-    # LD_LIBRARY_PATH is not set by default anymore (https://github.com/spack/spack/pull/28354)
     # LIBRARY_PATH and *_INCLUDE_PATH are not set by default anymore (https://github.com/spack/spack/pull/21699)
     include:
       - C_INCLUDE_PATH

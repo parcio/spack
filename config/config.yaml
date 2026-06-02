@@ -1,3 +1,2 @@
 config:
-  # Increase limit to 32 parallel jobs, otherwise we are limited to 16
   build_jobs: 32

@@ -32,8 +32,6 @@ packages:
   libfuse:
     # FIXME Check whether this needs to be the same version as the system FUSE
     require: "~utils"
-  libssh2:
-    require: "crypto=mbedtls"
   mbedtls:
     require: "libs=shared,static"
   mpi:
@@ -49,8 +47,6 @@ packages:
     require: "+jit"
   postgresql:
     require: "+client_only+threadsafe"
-  python:
-    prefer: ["@3.13"]
   py-matplotlib:
     require: "backend=qt5agg"
   py-torch:
@@ -66,4 +62,3 @@ packages:
   all:
     # Make sure to build for a generic architecture
     target: [x86_64_v3]
-    # Warning: Adding global variants resets per-package variants (https://github.com/spack/spack/pull/10466)
