@@ -50,11 +50,10 @@ bootstrap_install ()
 	compiler="$2"
 
 	test -n "${package}" || return 1
+	test -n "${compiler}" || compiler="${BOOTSTRAP_CONFIG_COMPILER}"
 
-	if test -n "${compiler}"
-	then
-		compiler="%${compiler}"
-	fi
+	# Work around concretizer quirks by always specifying a compiler
+	compiler="%%[when=%c]c=${compiler} %%[when=%cxx]cxx=${compiler} %%[when=%fortran]fortran=${compiler}"
 
 	if test -n "${BOOTSTRAP_MIRROR}"
 	then
@@ -103,12 +102,14 @@ case "${BOOTSTRAP_CONFIG}" in
 		BOOTSTRAP_CONFIG_OS_COMPILER='gcc@11'
 		BOOTSTRAP_CONFIG_CUDA='12.3'
 		BOOTSTRAP_CONFIG_CUDA_COMPILER='gcc@12'
+		BOOTSTRAP_CONFIG_COMPILER='gcc@15'
 		;;
 	sofja)
 		BOOTSTRAP_CONFIG_OS='rocky8'
 		BOOTSTRAP_CONFIG_OS_COMPILER='gcc@8'
 		BOOTSTRAP_CONFIG_CUDA='12.4'
 		BOOTSTRAP_CONFIG_CUDA_COMPILER='gcc@13'
+		BOOTSTRAP_CONFIG_COMPILER='gcc@15'
 		;;
 	*)
 		printf 'Config %s is not supported.\n' "${BOOTSTRAP_CONFIG}"
@@ -174,7 +175,7 @@ test "${BOOTSTRAP_CONFIG_OS}" = "$(bootstrap_get_os)" || exit 1
 ./bin/spack compiler find
 
 # Keep in sync with packages.yaml and modules.yaml
-bootstrap_install_compiler gcc@15 "${BOOTSTRAP_CONFIG_OS_COMPILER}"
+bootstrap_install_compiler "${BOOTSTRAP_CONFIG_COMPILER}" "${BOOTSTRAP_CONFIG_OS_COMPILER}"
 # CUDA requires an older GCC
 bootstrap_install_compiler "${BOOTSTRAP_CONFIG_CUDA_COMPILER}" "${BOOTSTRAP_CONFIG_OS_COMPILER}"
 
