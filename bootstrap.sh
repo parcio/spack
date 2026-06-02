@@ -289,6 +289,7 @@ bootstrap_install py-scipy
 bootstrap_install py-seaborn
 bootstrap_install py-sphinx
 #bootstrap_install py-tensorflow
+bootstrap_install py-uv
 bootstrap_install py-virtualenv
 
 # R
