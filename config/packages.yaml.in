@@ -50,7 +50,7 @@ packages:
   py-matplotlib:
     require: "backend=qt5agg"
   py-torch:
-    require: "+cuda cuda_arch=80,86"
+    require: "+cuda cuda_arch=80,86,90,90a"
   qt:
     require: "+opengl"
   qt-base:
