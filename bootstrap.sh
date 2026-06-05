@@ -17,6 +17,7 @@ BOOTSTRAP_CONFIG_OS=''
 BOOTSTRAP_CONFIG_OS_COMPILER=''
 BOOTSTRAP_CONFIG_CUDA=''
 BOOTSTRAP_CONFIG_CUDA_COMPILER=''
+BOOTSTRAP_CONFIG_COMPILER=''
 BOOTSTRAP_MIRROR="$(realpath "$(pwd)/../spack-mirror")"
 #BOOTSTRAP_MIRROR=''
 
@@ -41,6 +42,17 @@ bootstrap_get_os ()
 	./bin/spack arch --operating-system
 }
 
+bootstrap_get_compiler ()
+{
+	local compiler
+
+	compiler="$1"
+
+	test -n "${compiler}" || return 1
+
+	echo "%%[when=%c]c=${compiler} %%[when=%cxx]cxx=${compiler} %%[when=%fortran]fortran=${compiler}"
+}
+
 bootstrap_install ()
 {
 	local compiler
@@ -50,20 +62,19 @@ bootstrap_install ()
 	compiler="$2"
 
 	test -n "${package}" || return 1
-	test -n "${compiler}" || compiler="${BOOTSTRAP_CONFIG_COMPILER}"
-
 	# Work around concretizer quirks by always specifying a compiler
-	compiler="%%[when=%c]c=${compiler} %%[when=%cxx]cxx=${compiler} %%[when=%fortran]fortran=${compiler}"
+	test -n "${compiler}" || compiler="${BOOTSTRAP_CONFIG_COMPILER}"
 
 	if test -n "${BOOTSTRAP_MIRROR}"
 	then
 		echo "Mirroring ${package}"
 		# FIXME Mirroring for missing compilers currently does not work (https://github.com/spack/spack/issues/43092)
-		./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "${package}" ${compiler}
+		./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "${package}" $(bootstrap_get_compiler "${compiler}")
 	fi
 
 	echo "Installing ${package}"
-	./bin/spack install "${package}" ${compiler}
+	./bin/spack spec "${package}" $(bootstrap_get_compiler "${compiler}")
+	./bin/spack install "${package}" $(bootstrap_get_compiler "${compiler}")
 }
 
 bootstrap_install_compiler ()
@@ -80,7 +91,7 @@ bootstrap_install_compiler ()
 
 	bootstrap_install "${package}" "${compiler}"
 
-	location="$(./bin/spack location --install-dir "${package}" "%${compiler}")"
+	location="$(./bin/spack location --install-dir "${package}" $(bootstrap_get_compiler "${compiler}"))"
 	./bin/spack compiler find "${location}"
 }
 
