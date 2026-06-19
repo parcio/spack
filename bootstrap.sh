@@ -298,7 +298,7 @@ bootstrap_install py-pip
 bootstrap_install py-requests
 bootstrap_install py-scikit-learn
 bootstrap_install py-scipy
-bootstrap_install py-seaborn
+#bootstrap_install py-seaborn
 bootstrap_install py-sphinx
 #bootstrap_install py-tensorflow
 bootstrap_install py-uv

@@ -49,6 +49,8 @@ packages:
     require: "+client_only+threadsafe"
   py-matplotlib:
     require: "backend=qt5agg"
+  py-setuptools:
+    prefer: ["@80"]
   py-torch:
     require: "+cuda cuda_arch=80,86,90,90a"
   qt:
