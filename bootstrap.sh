@@ -42,56 +42,34 @@ bootstrap_get_os ()
 	./bin/spack arch --operating-system
 }
 
-bootstrap_get_compiler ()
-{
-	local compiler
-
-	compiler="$1"
-
-	test -n "${compiler}" || return 1
-
-	echo "%%[when=%c]c=${compiler} %%[when=%cxx]cxx=${compiler} %%[when=%fortran]fortran=${compiler}"
-}
-
 bootstrap_install ()
 {
-	local compiler
-	local package
-
-	package="$1"
-	compiler="$2"
-
-	test -n "${package}" || return 1
-	# Work around concretizer quirks by always specifying a compiler
-	test -n "${compiler}" || compiler="${BOOTSTRAP_CONFIG_COMPILER}"
+	test "$#" -ge 1 || return 1
 
 	if test -n "${BOOTSTRAP_MIRROR}"
 	then
 		echo "Mirroring ${package}"
 		# FIXME Mirroring for missing compilers currently does not work (https://github.com/spack/spack/issues/43092)
-		./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "${package}" $(bootstrap_get_compiler "${compiler}")
+		./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "$@"
 	fi
 
-	echo "Installing ${package}"
-	./bin/spack spec "${package}" $(bootstrap_get_compiler "${compiler}")
-	./bin/spack install "${package}" $(bootstrap_get_compiler "${compiler}")
+	echo "Installing $*"
+	./bin/spack spec "$@"
+	./bin/spack install "$@"
 }
 
 bootstrap_install_compiler ()
 {
-	local compiler
 	local location
 	local package
 
 	package="$1"
-	compiler="$2"
 
 	test -n "${package}" || return 1
-	test -n "${compiler}" || return 1
 
-	bootstrap_install "${package}" "${compiler}"
+	bootstrap_install "${package}" "%${BOOTSTRAP_CONFIG_OS_COMPILER}"
 
-	location="$(./bin/spack location --install-dir "${package}" $(bootstrap_get_compiler "${compiler}"))"
+	location="$(./bin/spack location --install-dir "${package}" "%${BOOTSTRAP_CONFIG_OS_COMPILER}")"
 	./bin/spack compiler find "${location}"
 }
 
@@ -113,14 +91,14 @@ case "${BOOTSTRAP_CONFIG}" in
 		BOOTSTRAP_CONFIG_OS_COMPILER='gcc@11'
 		BOOTSTRAP_CONFIG_CUDA='12'
 		BOOTSTRAP_CONFIG_CUDA_COMPILER='gcc@14'
-		BOOTSTRAP_CONFIG_COMPILER='gcc@15'
+		BOOTSTRAP_CONFIG_COMPILER='gcc@16'
 		;;
 	sofja)
 		BOOTSTRAP_CONFIG_OS='rocky8'
 		BOOTSTRAP_CONFIG_OS_COMPILER='gcc@8'
 		BOOTSTRAP_CONFIG_CUDA='12'
 		BOOTSTRAP_CONFIG_CUDA_COMPILER='gcc@14'
-		BOOTSTRAP_CONFIG_COMPILER='gcc@15'
+		BOOTSTRAP_CONFIG_COMPILER='gcc@16'
 		;;
 	*)
 		printf 'Config %s is not supported.\n' "${BOOTSTRAP_CONFIG}"
@@ -186,9 +164,9 @@ test "${BOOTSTRAP_CONFIG_OS}" = "$(bootstrap_get_os)" || exit 1
 ./bin/spack compiler find
 
 # Keep in sync with packages.yaml and modules.yaml
-bootstrap_install_compiler "${BOOTSTRAP_CONFIG_COMPILER}" "${BOOTSTRAP_CONFIG_OS_COMPILER}"
+bootstrap_install_compiler "${BOOTSTRAP_CONFIG_COMPILER}"
 # CUDA requires an older GCC
-bootstrap_install_compiler "${BOOTSTRAP_CONFIG_CUDA_COMPILER}" "${BOOTSTRAP_CONFIG_OS_COMPILER}"
+bootstrap_install_compiler "${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
 
 # Modules might not be installed system-wide
 bootstrap_install environment-modules
@@ -272,7 +250,7 @@ bootstrap_install vim
 # Languages
 bootstrap_install go
 # FIXME Julia needs LLVM that does not build with GCC 15.
-bootstrap_install julia "${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
+bootstrap_install julia "%${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
 bootstrap_install llvm
 bootstrap_install perl
 bootstrap_install rust
@@ -308,7 +286,7 @@ bootstrap_install py-virtualenv
 bootstrap_install r
 
 # CUDA
-bootstrap_install py-torch "${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
+bootstrap_install py-torch "%${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
 
 # Remove all unneeded packages
 ./bin/spack gc --yes-to-all
