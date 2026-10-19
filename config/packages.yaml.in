@@ -15,8 +15,6 @@ packages:
     require: "+libidn2+nghttp2"
   doxygen:
     require: "+graphviz"
-  environment-modules:
-    require: "target=x86_64"
   ffmpeg:
     require: "+libaom+libmp3lame+libopenjpeg+libopus+libspeex+libvorbis+libvpx+libwebp+libx264+nonfree"
   gcc:
