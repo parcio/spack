@@ -1,13 +1,4 @@
 packages:
-  c:
-    # Keep in sync with bootstrap script
-    prefer: ["gcc@16"]
-  cxx:
-    # Keep in sync with bootstrap script
-    prefer: ["gcc@16"]
-  fortran:
-    # Keep in sync with bootstrap script
-    prefer: ["gcc@16"]
   adios2:
     require: "+hdf5"
   binutils:
@@ -28,6 +19,9 @@ packages:
     require: "target=x86_64"
   ffmpeg:
     require: "+libaom+libmp3lame+libopenjpeg+libopus+libspeex+libvorbis+libvpx+libwebp+libx264+nonfree"
+  gcc:
+    # Keep in sync with bootstrap script
+    prefer: ["@16"]
   gl:
     require: "osmesa"
   gnuplot:
