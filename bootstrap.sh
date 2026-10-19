@@ -48,7 +48,7 @@ bootstrap_install ()
 
 	if test -n "${BOOTSTRAP_MIRROR}"
 	then
-		echo "Mirroring ${package}"
+		echo "Mirroring @*"
 		# FIXME Mirroring for missing compilers currently does not work (https://github.com/spack/spack/issues/43092)
 		./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "$@"
 	fi
@@ -132,10 +132,10 @@ popd
 git checkout --force
 
 # FIXME Find a better way to do this
-git apply --verbose ../patches/env.patch
+#git apply --verbose ../patches/env.patch
 
 #bootstrap_apply_pr spack xyz
-bootstrap_apply_pr spack 43158
+#bootstrap_apply_pr spack 43158
 
 rm --force --recursive "${HOME}/.spack"
 
