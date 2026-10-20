@@ -52,8 +52,6 @@ packages:
     require: "+client_only+threadsafe"
   py-matplotlib:
     require: "backend=qt5agg"
-  py-torch:
-    require: "+cuda cuda_arch=80,86,90,90a"
   qt:
     require: "+opengl"
   qt-base:
@@ -62,6 +60,15 @@ packages:
     require: "features=huge +python"
   zstd:
     require: "+programs"
+  # CUDA
+  magma:
+    require: "cuda_arch=80,86,90,90a"
+  nccl:
+    require: "cuda_arch=80,86,90,90a"
+  py-networkx:
+    require: "~default"
+  py-torch:
+    require: "+cuda cuda_arch=80,86,90,90a ~mpi ~valgrind"
   all:
     # Make sure to build for a generic architecture
     target: [x86_64_v3]
