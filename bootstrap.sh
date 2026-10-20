@@ -159,14 +159,15 @@ fi
 
 test "${BOOTSTRAP_CONFIG_OS}" = "$(bootstrap_get_os)" || exit 1
 
-# Force recreating the compiler configuration since it might have changed
-./bin/spack compiler remove "${BOOTSTRAP_CONFIG_OS_COMPILER}" || true
 ./bin/spack compiler find
 
 # Keep in sync with packages.yaml and modules.yaml
 bootstrap_install_compiler "${BOOTSTRAP_CONFIG_COMPILER}"
 # CUDA requires an older GCC
 bootstrap_install_compiler "${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
+
+# Remove build dependencies built with the system compiler
+./bin/spack gc --yes-to-all
 
 # Modules might not be installed system-wide
 bootstrap_install environment-modules

@@ -62,10 +62,13 @@ packages:
     require: "+programs"
   # CUDA
   magma:
+    # Keep in sync with py-torch
     require: "cuda_arch=80,86,90,90a"
   nccl:
+    # Keep in sync with py-torch
     require: "cuda_arch=80,86,90,90a"
   py-networkx:
+    # Avoid pulling in LLVM and Qt (via py-matplotlib and py-pandas)
     require: "~default"
   py-torch:
     require: "+cuda cuda_arch=80,86,90,90a ~mpi ~valgrind"
