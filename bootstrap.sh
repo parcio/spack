@@ -167,7 +167,7 @@ bootstrap_install_compiler "${BOOTSTRAP_CONFIG_COMPILER}"
 bootstrap_install_compiler "${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
 
 # Remove build dependencies built with the system compiler
-./bin/spack gc --yes-to-all
+./bin/spack gc --yes-to-all "%${BOOTSTRAP_CONFIG_OS_COMPILER}"
 
 # Modules might not be installed system-wide
 bootstrap_install environment-modules
