@@ -58,6 +58,8 @@ packages:
     require: "backend=qt5agg"
   py-scikit-build-core:
     require: "+pyproject"
+  py-setuptools:
+    prefer: ["@80"]
   qt:
     require: "+opengl"
   qt-base:
