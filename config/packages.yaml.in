@@ -3,7 +3,7 @@ packages:
     require: "+hdf5"
   binutils:
     # LLVM depends on binutils with these variants
-    require: "+gold+headers+ld+plugins"
+    require: "+gas+headers+ld"
   boost:
     # Valgrind depends on Boost with these variants
     require: "+atomic+chrono+exception+system+thread"
@@ -12,7 +12,7 @@ packages:
   cuda:
     require: "@@BOOTSTRAP_CONFIG_CUDA@"
   curl:
-    require: "+libidn2+nghttp2"
+    require: "+libidn2"
   doxygen:
     require: "+graphviz"
   elfutils:
@@ -39,15 +39,11 @@ packages:
   libfuse:
     # FIXME Check whether this needs to be the same version as the system FUSE
     require: "~utils"
-  mbedtls:
-    require: "libs=shared,static"
   mpi:
     require: "mpich"
-  mpich:
-    require: "device=ch4 netmod=ofi"
   octave:
     # FIXME +gl2ps+opengl+qscintilla+qt
-    require: "+arpack+fftw+fontconfig+freetype+gnuplot+hdf5+llvm+qrupdate+readline+suitesparse"
+    require: "+arpack+fftw+fontconfig+freetype+gnuplot+hdf5+llvm+qrupdate+suitesparse"
   pango:
     require: "+X"
   pcre:
@@ -81,7 +77,7 @@ packages:
     # Avoid pulling in LLVM and Qt (via py-matplotlib and py-pandas)
     require: "~default"
   py-torch:
-    require: "+cuda cuda_arch=80,86,90,90a ~mpi ~valgrind"
+    require: "cuda_arch=80,86,90,90a ~mpi ~valgrind"
   all:
     # Make sure to build for a generic architecture
     target: [x86_64_v3]
