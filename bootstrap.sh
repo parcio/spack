@@ -55,6 +55,7 @@ bootstrap_install ()
 
 	echo "Installing $*"
 	./bin/spack spec "$@"
+	./bin/spack mark --implicit --all "$@" || true
 	./bin/spack install "$@"
 }
 
@@ -167,7 +168,7 @@ bootstrap_install_compiler "${BOOTSTRAP_CONFIG_COMPILER}"
 bootstrap_install_compiler "${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
 
 # Remove build dependencies built with the system compiler
-./bin/spack gc --yes-to-all "%${BOOTSTRAP_CONFIG_OS_COMPILER}"
+./bin/spack gc --yes-to-all
 
 # Modules might not be installed system-wide
 bootstrap_install environment-modules
