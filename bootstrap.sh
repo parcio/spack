@@ -82,6 +82,7 @@ bootstrap_create_env ()
 
 	sed \
 		--expression="s#@BOOTSTRAP_CONFIG@#${BOOTSTRAP_CONFIG}#g" \
+		--expression="s#@BOOTSTRAP_CONFIG_OS@#${BOOTSTRAP_CONFIG_OS}#g" \
 		--expression="s#@ENVIRONMENT_MODULES_ROOT@#${env_mod_location}#g" \
 		--expression="s#@SPACK_ROOT@#$(pwd)#g" \
 		../env.sh.in > ../env.sh
@@ -178,7 +179,8 @@ bootstrap_install_compiler "${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
 # Modules might not be installed system-wide
 bootstrap_install environment-modules
 
-if test "${BOOTSTRAP_CONFIG_OS}" = 'centos8' -o "${BOOTSTRAP_CONFIG_OS}" = 'rocky8'
+if test "${BOOTSTRAP_CONFIG_OS}" = 'centos8' \
+   || test "${BOOTSTRAP_CONFIG_OS}" = 'rocky8'
 then
 	# man in CentOS/Rocky Linux 8 cannot handle a long MANPATH
 	bootstrap_install man-db
