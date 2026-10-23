@@ -139,10 +139,9 @@ popd
 git checkout --force
 
 # FIXME Find a better way to do this
-#git apply --verbose ../patches/env.patch
+git apply --verbose ../patches/env.patch
 
 #bootstrap_apply_pr spack xyz
-#bootstrap_apply_pr spack 43158
 
 rm --force --recursive "${HOME}/.spack"
 
@@ -303,7 +302,7 @@ bootstrap_install py-torch "%${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
 
 # Precreate the variables for our hack in setup-env.sh
 # FIXME Does not work with more than one OS
-#./bin/spack --print-shell-vars sh,modules > share/spack/setup-env.vars
+./bin/spack --print-shell-vars sh > share/spack/setup-env.vars
 
 # This is required for chaining to work
 ./bin/spack module tcl refresh --delete-tree --yes-to-all "os=${BOOTSTRAP_CONFIG_OS}"
