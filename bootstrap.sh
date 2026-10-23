@@ -54,7 +54,7 @@ bootstrap_install ()
 	fi
 
 	echo "Installing $*"
-	./bin/spack spec "$@"
+	./bin/spack spec --non-defaults "$@"
 	./bin/spack mark --implicit --all "$@" || true
 	./bin/spack install "$@"
 }
