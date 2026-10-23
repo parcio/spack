@@ -76,8 +76,13 @@ bootstrap_install_compiler ()
 
 bootstrap_create_env ()
 {
+	local env_mod_location
+
+	env_mod_location="$(./bin/spack location --install-dir environment-modules)"
+
 	sed \
 		--expression="s#@BOOTSTRAP_CONFIG@#${BOOTSTRAP_CONFIG}#g" \
+		--expression="s#@ENVIRONMENT_MODULES_ROOT@#${env_mod_location}#g" \
 		--expression="s#@SPACK_ROOT@#$(pwd)#g" \
 		../env.sh.in > ../env.sh
 }
