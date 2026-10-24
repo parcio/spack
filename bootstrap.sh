@@ -134,6 +134,7 @@ git checkout --force
 
 #bootstrap_apply_pr spack-packages xyz
 bootstrap_apply_pr spack-packages 7222
+bootstrap_apply_pr spack-packages 7240
 
 popd
 
