@@ -17,7 +17,12 @@ modules:
       - tcl
     tcl:
       projections:
-        # We want to be able to do "module load $pkg"
+        # Put packages built with the CUDA compiler into the main namespace, but their dependencies into a separate one
+        # Keep in sync with bootstrap script
+        julia: "{name}/{version}"
+        py-torch: "{name}/{version}"
+        ^gcc-runtime@14: "gcc14/{name}/{version}"
+        # We want to be able to do "module add $pkg"
         all: "{name}/{version}"
       # Create a module for the compiler we build using the system compiler
       include: ["gcc"]
