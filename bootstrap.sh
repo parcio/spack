@@ -49,7 +49,6 @@ bootstrap_install ()
 	if test -n "${BOOTSTRAP_MIRROR}"
 	then
 		echo "Mirroring $*"
-		# FIXME Mirroring for missing compilers currently does not work (https://github.com/spack/spack/issues/43092)
 		./bin/spack mirror create --directory "${BOOTSTRAP_MIRROR}" --dependencies "$@"
 	fi
 
@@ -57,21 +56,6 @@ bootstrap_install ()
 	./bin/spack spec --non-defaults "$@"
 	./bin/spack mark --implicit --all "$@" || true
 	./bin/spack install "$@"
-}
-
-bootstrap_install_compiler ()
-{
-	local location
-	local package
-
-	package="$1"
-
-	test -n "${package}" || return 1
-
-	bootstrap_install "${package}" "%${BOOTSTRAP_CONFIG_OS_COMPILER}"
-
-	location="$(./bin/spack location --install-dir "${package}" "%${BOOTSTRAP_CONFIG_OS_COMPILER}")"
-	./bin/spack compiler find "${location}"
 }
 
 bootstrap_create_env ()
@@ -170,9 +154,9 @@ test "${BOOTSTRAP_CONFIG_OS}" = "$(bootstrap_get_os)" || exit 1
 ./bin/spack compiler find
 
 # Keep in sync with packages.yaml and modules.yaml
-bootstrap_install_compiler "${BOOTSTRAP_CONFIG_COMPILER}"
+bootstrap_install "${BOOTSTRAP_CONFIG_COMPILER}" "%${BOOTSTRAP_CONFIG_OS_COMPILER}"
 # CUDA requires an older GCC
-bootstrap_install_compiler "${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
+bootstrap_install "${BOOTSTRAP_CONFIG_CUDA_COMPILER}" "%${BOOTSTRAP_CONFIG_OS_COMPILER}"
 
 # Remove build dependencies built with the system compiler
 ./bin/spack gc --yes-to-all
