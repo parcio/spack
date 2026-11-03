@@ -245,8 +245,6 @@ bootstrap_install vim
 
 # Languages
 bootstrap_install go
-# FIXME Julia needs LLVM that does not build with GCC 15.
-bootstrap_install julia "%${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
 bootstrap_install llvm
 bootstrap_install perl
 bootstrap_install rust
@@ -280,6 +278,9 @@ bootstrap_install py-virtualenv
 
 # R
 bootstrap_install r
+
+# FIXME Julia needs LLVM that does not build with GCC 16
+bootstrap_install julia "%${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
 
 # CUDA
 bootstrap_install py-torch "%${BOOTSTRAP_CONFIG_CUDA_COMPILER}"
